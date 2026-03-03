@@ -8,18 +8,39 @@
     <img src="assets/imgs/VigIA-Logo-Rem.png" alt="Logo VigIA" class="orb-static-image">
   </div>
 
-  <div class="bottom-nav">
-    <ion-button fill="clear" class="nav-item">
-      <ion-icon name="home"></ion-icon>
-      <ion-label>Inicio</ion-label>
-    </ion-button>
-    <ion-button fill="clear" class="nav-item">
-      <ion-icon name="chatbubble"></ion-icon>
-      <ion-label>Preguntas</ion-label>
-    </ion-button>
-    <ion-button fill="clear" class="nav-item">
-      <ion-icon name="map"></ion-icon>
-      <ion-label>Mapa</ion-label>
-    </ion-button>
+  <div class="navbar-wrapper">
+    <div class="custom-navbar">
+      
+      <div class="nav-button" [class.active]="segmentoActivo === 'inicio'" (click)="seleccionar('inicio')">
+        <ion-icon name="home"></ion-icon>
+        <ion-label *ngIf="segmentoActivo === 'inicio'">Inicio</ion-label>
+      </div>
+
+      <div class="nav-button" [class.active]="segmentoActivo === 'preguntas'" (click)="seleccionar('preguntas')">
+        <ion-icon name="help-circle"></ion-icon>
+        <ion-label *ngIf="segmentoActivo === 'preguntas'">Preguntas</ion-label>
+      </div>
+
+      <div class="nav-button" [class.active]="segmentoActivo === 'mapa'" (click)="seleccionar('mapa')">
+        <ion-icon name="map"></ion-icon>
+        <ion-label *ngIf="segmentoActivo === 'mapa'">Mapa</ion-label>
+      </div>
+
+      <div class="nav-button" [class.active]="segmentoActivo === 'calendario'" (click)="seleccionar('calendario')">
+        <ion-icon name="calendar"></ion-icon>
+        <ion-label *ngIf="segmentoActivo === 'calendario'">Calendario</ion-label>
+      </div>
+
+      <div class="nav-button" [class.active]="segmentoActivo === 'blog'" (click)="seleccionar('blog')">
+        <ion-icon name="document-text"></ion-icon>
+        <ion-label *ngIf="segmentoActivo === 'blog'">Blog</ion-label>
+      </div>
+
+      <div class="nav-button" [class.active]="segmentoActivo === 'otros'" (click)="seleccionar('otros')">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+        <ion-label *ngIf="segmentoActivo === 'otros'">Otros</ion-label>
+      </div>
+
     </div>
+  </div>
 </ion-content>
