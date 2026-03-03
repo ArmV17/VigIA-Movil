@@ -29,8 +29,6 @@ import {
 })
 export class HomePage {
 
-  segmentoActivo: string = 'inicio';
-
   constructor() {
     addIcons({ 
       home, 
@@ -43,9 +41,8 @@ export class HomePage {
   }
 
   seleccionar(tab: string) {
-    this.segmentoActivo = tab;
+    console.log('Navegando a la sección:', tab);
 
-    console.log('Sección seleccionada:', tab);
   }
 
 }

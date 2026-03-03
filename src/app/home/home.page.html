@@ -11,34 +11,34 @@
   <div class="navbar-wrapper">
     <div class="custom-navbar">
       
-      <div class="nav-button" [class.active]="segmentoActivo === 'inicio'" (click)="seleccionar('inicio')">
+      <div class="nav-button" (click)="seleccionar('inicio')">
         <ion-icon name="home"></ion-icon>
-        <span class="nav-text" *ngIf="segmentoActivo === 'inicio'">Inicio</span>
+        <span class="nav-text">Inicio</span>
       </div>
 
-      <div class="nav-button" [class.active]="segmentoActivo === 'preguntas'" (click)="seleccionar('preguntas')">
+      <div class="nav-button" (click)="seleccionar('preguntas')">
         <ion-icon name="help-circle"></ion-icon>
-        <span class="nav-text" *ngIf="segmentoActivo === 'preguntas'">Preguntas</span>
+        <span class="nav-text">Preguntas</span>
       </div>
 
-      <div class="nav-button" [class.active]="segmentoActivo === 'mapa'" (click)="seleccionar('mapa')">
+      <div class="nav-button" (click)="seleccionar('mapa')">
         <ion-icon name="map"></ion-icon>
-        <span class="nav-text" *ngIf="segmentoActivo === 'mapa'">Mapa</span>
+        <span class="nav-text">Mapa</span>
       </div>
 
-      <div class="nav-button" [class.active]="segmentoActivo === 'calendario'" (click)="seleccionar('calendario')">
+      <div class="nav-button" (click)="seleccionar('calendario')">
         <ion-icon name="calendar"></ion-icon>
-        <span class="nav-text" *ngIf="segmentoActivo === 'calendario'">Calendario</span>
+        <span class="nav-text">Calendario</span>
       </div>
 
-      <div class="nav-button" [class.active]="segmentoActivo === 'blog'" (click)="seleccionar('blog')">
+      <div class="nav-button" (click)="seleccionar('blog')">
         <ion-icon name="document-text"></ion-icon>
-        <span class="nav-text" *ngIf="segmentoActivo === 'blog'">Blog</span>
+        <span class="nav-text">Blog</span>
       </div>
 
-      <div class="nav-button" [class.active]="segmentoActivo === 'otros'" (click)="seleccionar('otros')">
+      <div class="nav-button" (click)="seleccionar('otros')">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
-        <span class="nav-text" *ngIf="segmentoActivo === 'otros'">Otros</span>
+        <span class="nav-text">Otros</span>
       </div>
 
     </div>
