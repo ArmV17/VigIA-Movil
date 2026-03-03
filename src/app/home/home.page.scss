@@ -10,22 +10,37 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); 
-  z-index: 5; 
-  
+  transform: translate(-50%, -50%);
+  z-index: 5;
   display: flex;
   justify-content: center;
   align-items: center;
   
-  &::before {
-    content: '';
-    position: absolute;
-    width: 220px; 
-    height: 220px;
-    border: 1px dashed rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
-    pointer-events: none; 
+  cursor: pointer; 
+  
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.1); 
   }
+
+  &:active {
+    transform: translate(-50%, -50%) scale(0.95); 
+  }
+}
+
+.orb-static-image {
+  width: 160px;
+  height: auto;
+  display: block;
+  
+  filter: drop-shadow(0 0 15px rgba(100, 180, 255, 0.6));
+  
+  transition: filter 0.3s ease;
+}
+
+.center-orb-container:hover .orb-static-image {
+  filter: drop-shadow(0 0 25px rgba(100, 180, 255, 0.9));
 }
 
 .orb-static-image {
