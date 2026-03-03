@@ -13,32 +13,32 @@
       
       <div class="nav-button" [class.active]="segmentoActivo === 'inicio'" (click)="seleccionar('inicio')">
         <ion-icon name="home"></ion-icon>
-        <ion-label *ngIf="segmentoActivo === 'inicio'">Inicio</ion-label>
+        <span class="nav-text" *ngIf="segmentoActivo === 'inicio'">Inicio</span>
       </div>
 
       <div class="nav-button" [class.active]="segmentoActivo === 'preguntas'" (click)="seleccionar('preguntas')">
         <ion-icon name="help-circle"></ion-icon>
-        <ion-label *ngIf="segmentoActivo === 'preguntas'">Preguntas</ion-label>
+        <span class="nav-text" *ngIf="segmentoActivo === 'preguntas'">Preguntas</span>
       </div>
 
       <div class="nav-button" [class.active]="segmentoActivo === 'mapa'" (click)="seleccionar('mapa')">
         <ion-icon name="map"></ion-icon>
-        <ion-label *ngIf="segmentoActivo === 'mapa'">Mapa</ion-label>
+        <span class="nav-text" *ngIf="segmentoActivo === 'mapa'">Mapa</span>
       </div>
 
       <div class="nav-button" [class.active]="segmentoActivo === 'calendario'" (click)="seleccionar('calendario')">
         <ion-icon name="calendar"></ion-icon>
-        <ion-label *ngIf="segmentoActivo === 'calendario'">Calendario</ion-label>
+        <span class="nav-text" *ngIf="segmentoActivo === 'calendario'">Calendario</span>
       </div>
 
       <div class="nav-button" [class.active]="segmentoActivo === 'blog'" (click)="seleccionar('blog')">
         <ion-icon name="document-text"></ion-icon>
-        <ion-label *ngIf="segmentoActivo === 'blog'">Blog</ion-label>
+        <span class="nav-text" *ngIf="segmentoActivo === 'blog'">Blog</span>
       </div>
 
       <div class="nav-button" [class.active]="segmentoActivo === 'otros'" (click)="seleccionar('otros')">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
-        <ion-label *ngIf="segmentoActivo === 'otros'">Otros</ion-label>
+        <span class="nav-text" *ngIf="segmentoActivo === 'otros'">Otros</span>
       </div>
 
     </div>
