@@ -1,35 +1,22 @@
 import { Component } from '@angular/core';
-import { 
-  IonContent, 
-  IonIcon, 
-  IonLabel 
-} from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons'; 
-import { 
-  home, 
-  helpCircle, 
-  map, 
-  calendar, 
-  documentText, 
-  ellipsisHorizontal 
-} from 'ionicons/icons'; 
+import { home, helpCircle, map, calendar, documentText, ellipsisHorizontal } from 'ionicons/icons'; 
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [
-    IonContent, 
-    IonIcon, 
-    IonLabel, 
-    CommonModule
-  ],
+  imports: [IonContent, IonIcon, CommonModule],
 })
 export class HomePage {
+  // Variable para rastrear la pestaña activa
+  seccionActiva: string = 'inicio';
 
-  constructor() {
+  constructor(private router: Router) { // Inyecta el Router
     addIcons({ 
       home, 
       'help-circle': helpCircle, 
@@ -41,8 +28,13 @@ export class HomePage {
   }
 
   seleccionar(tab: string) {
-    console.log('Navegando a la sección:', tab);
-
+    this.seccionActiva = tab;
+    
+    // Si la ruta existe en app.routes.ts, navega. 
+    if (tab === 'preguntas') {
+      this.router.navigate(['/preguntas']);
+    }
+    
+    console.log('Sección activa:', tab);
   }
-
 }

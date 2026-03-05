@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true" class="vigi-container">
-  
+
   <div class="top-logo-container">
     <img src="assets/imgs/UTC_logo-plano.webp" alt="Logo UTC" class="main-logo">
   </div>
@@ -11,32 +11,32 @@
   <div class="navbar-wrapper">
     <div class="custom-navbar">
       
-      <div class="nav-button" (click)="seleccionar('inicio')">
+      <div class="nav-button" [class.active]="seccionActiva === 'inicio'" (click)="seleccionar('inicio')">
         <ion-icon name="home"></ion-icon>
         <span class="nav-text">Inicio</span>
       </div>
 
-      <div class="nav-button" (click)="seleccionar('preguntas')">
+      <div class="nav-button" [class.active]="seccionActiva === 'preguntas'" (click)="seleccionar('preguntas')">
         <ion-icon name="help-circle"></ion-icon>
         <span class="nav-text">Preguntas</span>
       </div>
 
-      <div class="nav-button" (click)="seleccionar('mapa')">
+      <div class="nav-button" [class.active]="seccionActiva === 'mapa'" (click)="seleccionar('mapa')">
         <ion-icon name="map"></ion-icon>
         <span class="nav-text">Mapa</span>
       </div>
 
-      <div class="nav-button" (click)="seleccionar('calendario')">
+      <div class="nav-button" [class.active]="seccionActiva === 'calendario'" (click)="seleccionar('calendario')">
         <ion-icon name="calendar"></ion-icon>
         <span class="nav-text">Calendario</span>
       </div>
 
-      <div class="nav-button" (click)="seleccionar('blog')">
+      <div class="nav-button" [class.active]="seccionActiva === 'blog'" (click)="seleccionar('blog')">
         <ion-icon name="document-text"></ion-icon>
         <span class="nav-text">Blog</span>
       </div>
 
-      <div class="nav-button" (click)="seleccionar('otros')">
+      <div class="nav-button" [class.active]="seccionActiva === 'otros'" (click)="seleccionar('otros')">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
         <span class="nav-text">Otros</span>
       </div>

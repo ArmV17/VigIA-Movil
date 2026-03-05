@@ -6,7 +6,23 @@
   align-items: center;
 }
 
-// VigIA Logo
+// Logo Superior UTC
+.top-logo-container {
+  position: absolute;
+  top: 20px;    
+  left: 20px;   
+  z-index: 100; 
+
+  .main-logo {
+    width: 70px; 
+    height: auto;
+    display: block;
+    filter: grayscale(100%) brightness(0%) invert(100%) 
+            drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+  }
+}
+
+// Logo Central VigIA
 .center-orb-container {
   position: absolute;
   top: 50%;
@@ -16,9 +32,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
   cursor: pointer; 
-  
   transition: transform 0.3s ease-in-out;
 
   &:hover {
@@ -34,9 +48,8 @@
   width: 160px;
   height: auto;
   display: block;
-  
-  filter: drop-shadow(0 0 15px rgba(100, 180, 255, 0.6));
-  
+  filter: drop-shadow(0 0 15px rgba(100, 180, 255, 0.6))
+          drop-shadow(0 0 30px rgba(100, 180, 255, 0.3));
   transition: filter 0.3s ease;
 }
 
@@ -44,17 +57,7 @@
   filter: drop-shadow(0 0 25px rgba(100, 180, 255, 0.9));
 }
 
-.orb-static-image {
-  width: 160px; 
-  height: auto; 
-  display: block;
-  
-  filter: drop-shadow(0 0 15px rgba(100, 180, 255, 0.6))
-          drop-shadow(0 0 30px rgba(100, 180, 255, 0.3));
-
-}
-
-// Navbar
+// Navbar Wrapper
 .navbar-wrapper {
   position: fixed;
   bottom: 25px;
@@ -78,12 +81,11 @@
   gap: 4px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  
-
   width: 94%; 
   max-width: 450px; 
 }
 
+// Botones del Navbar
 .nav-button {
   display: flex;
   align-items: center;
@@ -113,7 +115,8 @@
     transition: all 0.3s ease;
   }
 
-  &:hover, &:active {
+  // Estado Hover y Estado Activo (Seleccionado)
+  &:hover, &:active, &.active {
     background: rgba(255, 255, 255, 0.15);
     color: white;
     padding: 0 18px;
@@ -130,6 +133,7 @@
   }
 }
 
+// Adaptabilidad para pantallas pequeñas
 @media (max-width: 360px) {
   .custom-navbar {
     padding: 4px;
@@ -148,27 +152,9 @@
       font-size: 12px;
       margin-left: 4px;
     }
+
+    &.active, &:hover {
+      padding: 0 12px;
+    }
   }
-}
-
-// UTC Logo Plano
-.top-logo-container {
-  position: absolute;
-  top: 20px;    
-  left: 20px;   
-  z-index: 100; 
-
-  .main-logo {
-    width: 70px; 
-    height: auto;
-    display: block;
-
-    filter: grayscale(100%) brightness(0%) invert(100%) 
-            drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
-  }
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
