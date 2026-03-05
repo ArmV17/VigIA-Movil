@@ -13,10 +13,9 @@ import { home, helpCircle, map, calendar, documentText, ellipsisHorizontal } fro
   imports: [IonContent, IonIcon, CommonModule],
 })
 export class HomePage {
-  // Variable para rastrear la pestaña activa
   seccionActiva: string = 'inicio';
 
-  constructor(private router: Router) { // Inyecta el Router
+  constructor(private router: Router) {
     addIcons({ 
       home, 
       'help-circle': helpCircle, 
@@ -30,11 +29,10 @@ export class HomePage {
   seleccionar(tab: string) {
     this.seccionActiva = tab;
     
-    // Si la ruta existe en app.routes.ts, navega. 
-    if (tab === 'preguntas') {
+    if (tab === 'inicio') {
+      this.router.navigate(['/inicio']);
+    } else if (tab === 'preguntas') {
       this.router.navigate(['/preguntas']);
     }
-    
-    console.log('Sección activa:', tab);
   }
 }
