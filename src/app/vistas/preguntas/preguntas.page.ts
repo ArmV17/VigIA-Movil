@@ -64,23 +64,28 @@ export class PreguntasPage implements OnInit {
    * Obtiene las preguntas desde la base de datos de Supabase
    */
   async cargarPreguntas() {
-    try {
-      const { data, error } = await supabase
-        .from('preguntas_enviadas')
-        .select('*')
-        // Solo traemos las que ya tienen una respuesta asignada
-        .not('respuesta', 'is', null) 
-        .order('created_at', { ascending: false });
+  try {
+    const { data, error } = await supabase
+      .from('preguntas_enviadas')
+      .select('*')
+      // REGLA 1: Solo traer las que NO tengan la respuesta nula o vacía
+      .not('respuesta', 'is', null)
+      .neq('respuesta', '') 
+      .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      this.preguntas = data || [];
-      
-    } catch (err: any) {
-      console.error('Error cargando preguntas:', err.message);
-    }
+    if (error) throw error;
+
+    // REGLA 2: Filtrar localmente las que tengan el formato ¿ ?
+    this.preguntas = (data || []).filter(q => {
+      const texto = q.pregunta?.trim() || '';
+      return texto.startsWith('¿') && texto.endsWith('?');
+    });
+    
+  } catch (err: any) {
+    console.error('Error cargando preguntas:', err.message);
   }
+}
 
-  // Filtrado en tiempo real basado en el título de la pregunta
 get preguntasFiltradas() {
   return this.preguntas.filter(q => 
     q.pregunta?.toLowerCase().includes(this.textoBusqueda.toLowerCase())
