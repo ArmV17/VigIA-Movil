@@ -1,35 +1,94 @@
 <ion-content [fullscreen]="true" class="vigi-container">
-
-  <!-- Logo UTC -->
   <div class="top-logo-container">
     <img src="assets/imgs/UTC_logo-plano.webp" alt="Logo UTC" class="main-logo">
   </div>
 
-  <!-- CONTENIDO -->
   <div class="preguntas-content">
+    <h1 class="text-center titulo">Preguntas <ion-icon name="clipboard-outline"></ion-icon></h1>
 
-    <h2 class="titulo">Preguntas Frecuentes</h2>
+    <ion-segment [(ngModel)]="segmentoActual" mode="ios" class="custom-segment">
+      <ion-segment-button value="frecuentes">
+        <ion-label>Frecuentes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="enviar">
+        <ion-label>Enviar Pregunta</ion-label>
+      </ion-segment-button>
+    </ion-segment>
 
-    <ion-searchbar
-      [(ngModel)]="textoBusqueda"
-      placeholder="Buscar pregunta..."
-      animated="true"
-      class="custom-search">
-    </ion-searchbar>
+    <div *ngIf="segmentoActual === 'frecuentes'" class="animate__animated animate__fadeIn">
+      
+      <ion-searchbar 
+        [(ngModel)]="textoBusqueda" 
+        placeholder="Buscar..." 
+        class="custom-search"
+        animated="true">
+      </ion-searchbar>
 
-    <ion-list>
-      <ion-item *ngFor="let item of preguntasFiltradas">
-        {{ item.pregunta }}
-      </ion-item>
-    </ion-list>
+      <ion-accordion-group [multiple]="false" mode="md">
+        <ion-accordion *ngFor="let quest of preguntasFiltradas; let first = first" [value]="quest.id" class="custom-accordion">
+          <ion-item slot="header">
+            <ion-icon name="help-circle-outline" slot="start" class="quest-icon"></ion-icon>
+            <ion-label>{{ quest.titulo }}</ion-label>
+          </ion-item>
+          
+          <div class="accordion-body" slot="content">
+            <div [innerHTML]="quest.informacion"></div>
+            
+            <hr *ngIf="quest.imagen || quest.documento || quest.redirigir" class="divisor">
+            
+            <img *ngIf="quest.imagen" [src]="quest.imagen" class="img-quest">
 
-    <div *ngIf="preguntasFiltradas.length === 0" class="no-results">
-      No se encontraron resultados
+            <div class="botones-accion">
+              <ion-button *ngIf="quest.documento" fill="outline" size="small" (click)="abrirEnlace(quest.documento)">
+                Ver PDF <ion-icon name="document-text-outline" slot="end"></ion-icon>
+              </ion-button>
+              
+              <ion-button *ngIf="quest.redirigir" fill="solid" size="small" (click)="abrirEnlace(quest.redirigir)">
+                Saber más <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+
+      <div *ngIf="preguntasFiltradas.length === 0" class="no-results">
+        <p>No hay preguntas frecuentes disponibles por ahora.</p>
+      </div>
     </div>
 
+    <div *ngIf="segmentoActual === 'enviar'" class="animate__animated animate__fadeIn">
+      <div class="form-card">
+        <h6 class="text-center">¿No hemos resuelto tus dudas?</h6>
+        <h3 class="text-center">¡Envíanos tus Preguntas!</h3>
+
+        <div class="form-group">
+          <ion-item fill="outline" mode="md" class="custom-input">
+            <ion-label position="floating">Tu Nombre (OPCIONAL)</ion-label>
+            <ion-input type="text" [(ngModel)]="nuevaPregunta.nombre"></ion-input>
+          </ion-item>
+
+          <ion-item fill="outline" mode="md" class="custom-input">
+            <ion-label position="floating">Escribe tu Pregunta (mín. 10 carac.)</ion-label>
+            <ion-input type="text" [(ngModel)]="nuevaPregunta.pregunta" required></ion-input>
+          </ion-item>
+
+          <ion-item fill="outline" mode="md" class="custom-input">
+            <ion-label position="floating">Más detalles (OPCIONAL)</ion-label>
+            <ion-textarea [(ngModel)]="nuevaPregunta.detalles" rows="4"></ion-textarea>
+          </ion-item>
+
+          <ion-button expand="block" class="btn-enviar" (click)="enviarPregunta()">
+            Enviar <ion-icon name="paper-plane" slot="end"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="navbar-wrapper">
+    </div>
+
+      <div class="navbar-wrapper">
     <div class="custom-navbar">
       
       <div class="nav-button" routerLink="/home" routerLinkActive="active">
