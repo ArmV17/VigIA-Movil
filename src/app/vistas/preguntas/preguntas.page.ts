@@ -1,18 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { 
   IonContent, 
-  IonHeader, 
-  IonTitle, 
-  IonToolbar, 
   IonSearchbar, 
   IonList, 
   IonItem, 
-  IonLabel, 
-  IonIcon 
+  IonIcon,
+  IonLabel 
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { 
@@ -32,30 +28,27 @@ import {
   imports: [
     CommonModule, 
     FormsModule, 
-    RouterLink,
+    RouterLink, 
+    RouterLinkActive,
     IonContent, 
-    IonHeader, 
-    IonTitle, 
-    IonToolbar, 
     IonSearchbar, 
     IonList, 
     IonItem, 
-    IonLabel, 
-    IonIcon
-  ]
+    IonIcon,
+    IonLabel
+  ],
 })
 export class PreguntasPage implements OnInit {
 
   textoBusqueda: string = '';
 
-  // Base de datos de preguntas
   preguntas = [
-    { pregunta: '¿Cuáles son los costos?', respuesta: 'Los costos varían según la carrera. Consulta en ventanilla.' },
-    { pregunta: '¿Qué áreas corresponden a servicios académicos?', respuesta: 'Edificio A, planta baja.' },
-    { pregunta: '¿Requisitos de incorporación?', respuesta: 'Acta de nacimiento, certificado de bachillerato y CURP.' },
-    { pregunta: '¿Cómo se solicita una Constancia/Kardex?', respuesta: 'A través del portal de alumnos en la sección de trámites.' },
-    { pregunta: '¿Cuánto dura el plan de estudios?', respuesta: 'Depende del modelo (TSU o Ingeniería), generalmente de 2 a 4 años.' },
-    { pregunta: '¿Se usa uniforme en la universidad?', respuesta: 'El uso de uniforme depende de tu facultad y día de la semana.' }
+    { pregunta: '¿Cuáles son los costos?' },
+    { pregunta: '¿Qué áreas corresponden a servicios académicos?' },
+    { pregunta: '¿Requisitos de incorporación?' },
+    { pregunta: '¿Cómo se solicita una Constancia/Kardex?' },
+    { pregunta: '¿Cuánto dura el plan de estudios?' },
+    { pregunta: '¿Se usa uniforme en la universidad?' }
   ];
 
   constructor() {
@@ -69,16 +62,11 @@ export class PreguntasPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   get preguntasFiltradas() {
-    if (!this.textoBusqueda.trim()) {
-      return this.preguntas;
-    }
     return this.preguntas.filter(p =>
       p.pregunta.toLowerCase().includes(this.textoBusqueda.toLowerCase())
     );
   }
-
 }

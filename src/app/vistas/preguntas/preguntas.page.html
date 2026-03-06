@@ -32,37 +32,36 @@
   <div class="navbar-wrapper">
     <div class="custom-navbar">
       
-      <div class="nav-button" [class.active]="seccionActiva === 'inicio'" (click)="seleccionar('inicio')">
+      <div class="nav-button" routerLink="/home" routerLinkActive="active">
         <ion-icon name="home"></ion-icon>
         <span class="nav-text">Inicio</span>
       </div>
 
-      <div class="nav-button" [class.active]="seccionActiva === 'preguntas'" (click)="seleccionar('preguntas')">
+      <div class="nav-button" routerLink="/preguntas" routerLinkActive="active">
         <ion-icon name="help-circle"></ion-icon>
         <span class="nav-text">Preguntas</span>
       </div>
 
-      <div class="nav-button" [class.active]="seccionActiva === 'mapa'" (click)="seleccionar('mapa')">
+      <div class="nav-button" routerLink="/mapa" routerLinkActive="active">
         <ion-icon name="map"></ion-icon>
         <span class="nav-text">Mapa</span>
       </div>
 
-      <div class="nav-button" [class.active]="seccionActiva === 'calendario'" (click)="seleccionar('calendario')">
+      <div class="nav-button" routerLink="/calendario" routerLinkActive="active">
         <ion-icon name="calendar"></ion-icon>
         <span class="nav-text">Calendario</span>
       </div>
 
-      <div class="nav-button" [class.active]="seccionActiva === 'blog'" (click)="seleccionar('blog')">
+      <div class="nav-button" routerLink="/blog" routerLinkActive="active">
         <ion-icon name="document-text"></ion-icon>
         <span class="nav-text">Blog</span>
       </div>
 
-      <div class="nav-button" [class.active]="seccionActiva === 'otros'" (click)="seleccionar('otros')">
+      <div class="nav-button" routerLink="/otros" routerLinkActive="active">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
         <span class="nav-text">Otros</span>
       </div>
 
     </div>
   </div>
-
 </ion-content>

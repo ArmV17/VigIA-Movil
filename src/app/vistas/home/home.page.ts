@@ -1,21 +1,34 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { IonContent, IonIcon, IonLabel } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons'; 
-import { home, helpCircle, map, calendar, documentText, ellipsisHorizontal } from 'ionicons/icons'; 
+import { 
+  home, 
+  helpCircle, 
+  map, 
+  calendar, 
+  documentText, 
+  ellipsisHorizontal 
+} from 'ionicons/icons'; 
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonIcon, CommonModule],
+  imports: [
+    CommonModule, 
+    RouterLink, 
+    RouterLinkActive,
+    IonContent, 
+    IonIcon, 
+    IonLabel
+  ],
 })
 export class HomePage {
-  seccionActiva: string = 'inicio';
 
-  constructor(private router: Router) {
+  constructor() {
     addIcons({ 
       home, 
       'help-circle': helpCircle, 
@@ -27,12 +40,7 @@ export class HomePage {
   }
 
   seleccionar(tab: string) {
-    this.seccionActiva = tab;
-    
-    if (tab === 'inicio') {
-      this.router.navigate(['/inicio']);
-    } else if (tab === 'preguntas') {
-      this.router.navigate(['/preguntas']);
-    }
+    console.log('Cambiando a sección:', tab);
   }
+
 }
