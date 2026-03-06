@@ -22,7 +22,7 @@
 .preguntas-content {
   margin-top: 100px;
   padding: 20px;
-  padding-bottom: 120px; // Espacio para que el navbar no tape el contenido
+  padding-bottom: 150px;
 }
 
 .titulo {
@@ -78,13 +78,20 @@ ion-item {
 /* ================= NAVBAR (IDÉNTICO AL HOME) ================= */
 .navbar-wrapper {
   position: fixed;
-  bottom: 25px;
+  bottom: 0;
   left: 0;
   right: 0;
+  height: 100px; 
   display: flex;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
-  width: 100%;
+  
+  background: linear-gradient(to top, 
+    #0a192f 0%,
+    #0a192f 70%,
+    transparent 100%
+  );
 }
 
 .custom-navbar {
