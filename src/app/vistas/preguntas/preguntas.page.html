@@ -35,18 +35,7 @@
             <div [innerHTML]="quest.informacion"></div>
             
             <hr *ngIf="quest.imagen || quest.documento || quest.redirigir" class="divisor">
-            
-            <img *ngIf="quest.imagen" [src]="quest.imagen" class="img-quest">
-
-            <div class="botones-accion">
-              <ion-button *ngIf="quest.documento" fill="outline" size="small" (click)="abrirEnlace(quest.documento)">
-                Ver PDF <ion-icon name="document-text-outline" slot="end"></ion-icon>
-              </ion-button>
-              
-              <ion-button *ngIf="quest.redirigir" fill="solid" size="small" (click)="abrirEnlace(quest.redirigir)">
-                Saber más <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
-              </ion-button>
-            </div>
+          
           </div>
         </ion-accordion>
       </ion-accordion-group>
@@ -59,22 +48,40 @@
     <div *ngIf="segmentoActual === 'enviar'" class="animate__animated animate__fadeIn">
       <div class="form-card">
         <h6 class="text-center">¿No hemos resuelto tus dudas?</h6>
-        <h3 class="text-center">¡Envíanos tus Preguntas!</h3>
+        <h3 class="text-center">¡Envíanos todas tus Preguntas!</h3>
+
+        <div style="position:absolute;left:-9999px;">
+          <input type="text" [(ngModel)]="nuevaPregunta.website" tabindex="-1" autocomplete="off">
+        </div>
 
         <div class="form-group">
           <ion-item fill="outline" mode="md" class="custom-input">
-            <ion-label position="floating">Tu Nombre (OPCIONAL)</ion-label>
-            <ion-input type="text" [(ngModel)]="nuevaPregunta.nombre"></ion-input>
+            <ion-label position="floating">Tu Nombre: <small>( OPCIONAL )</small></ion-label>
+            <ion-input 
+              type="text" 
+              [(ngModel)]="nuevaPregunta.nombre_persona" 
+              maxlength="100">
+            </ion-input>
           </ion-item>
 
           <ion-item fill="outline" mode="md" class="custom-input">
-            <ion-label position="floating">Escribe tu Pregunta (mín. 10 carac.)</ion-label>
-            <ion-input type="text" [(ngModel)]="nuevaPregunta.pregunta" required></ion-input>
+            <ion-label position="floating">Escribe tu Pregunta: <small>(mín. 10 caracteres)</small></ion-label>
+            <ion-input 
+              type="text" 
+              [(ngModel)]="nuevaPregunta.pregunta" 
+              required 
+              minlength="10" 
+              maxlength="300">
+            </ion-input>
           </ion-item>
 
           <ion-item fill="outline" mode="md" class="custom-input">
-            <ion-label position="floating">Más detalles (OPCIONAL)</ion-label>
-            <ion-textarea [(ngModel)]="nuevaPregunta.detalles" rows="4"></ion-textarea>
+            <ion-label position="floating">Escribe más detalles: <small>( OPCIONAL, máx. 1000 )</small></ion-label>
+            <ion-textarea 
+              [(ngModel)]="nuevaPregunta.descripcion" 
+              rows="4" 
+              maxlength="1000">
+            </ion-textarea>
           </ion-item>
 
           <ion-button expand="block" class="btn-enviar" (click)="enviarPregunta()">
