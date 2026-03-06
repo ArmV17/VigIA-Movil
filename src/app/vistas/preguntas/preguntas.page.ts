@@ -81,11 +81,11 @@ export class PreguntasPage implements OnInit {
   }
 
   // Filtrado en tiempo real basado en el título de la pregunta
-  get preguntasFiltradas() {
-    return this.preguntas.filter(q => 
-      (q.titulo || q.pregunta).toLowerCase().includes(this.textoBusqueda.toLowerCase())
-    );
-  }
+get preguntasFiltradas() {
+  return this.preguntas.filter(q => 
+    q.pregunta?.toLowerCase().includes(this.textoBusqueda.toLowerCase())
+  );
+}
 
   /**
    * Envía una nueva duda a la base de datos

@@ -25,17 +25,24 @@
       </ion-searchbar>
 
       <ion-accordion-group [multiple]="false" mode="md">
-        <ion-accordion *ngFor="let quest of preguntasFiltradas; let first = first" [value]="quest.id" class="custom-accordion">
+        <ion-accordion *ngFor="let quest of preguntasFiltradas" [value]="quest.id" class="custom-accordion">
           <ion-item slot="header">
             <ion-icon name="help-circle-outline" slot="start" class="quest-icon"></ion-icon>
-            <ion-label>{{ quest.titulo }}</ion-label>
+            <ion-label>{{ quest.pregunta }}</ion-label>
           </ion-item>
           
           <div class="accordion-body" slot="content">
-            <div [innerHTML]="quest.informacion"></div>
+            <div>{{ quest.respuesta }}</div>
             
-            <hr *ngIf="quest.imagen || quest.documento || quest.redirigir" class="divisor">
-          
+            <p *ngIf="quest.descripcion" style="font-size: 0.8em; color: #8a9bb8; margin-top: 10px;">
+              <i>Detalles adicionales: {{ quest.descripcion }}</i>
+            </p>
+
+            <div class="botones-accion" *ngIf="quest.redirigir">
+              <ion-button fill="solid" size="small" (click)="abrirEnlace(quest.redirigir)">
+                Saber más <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+              </ion-button>
+            </div>
           </div>
         </ion-accordion>
       </ion-accordion-group>
