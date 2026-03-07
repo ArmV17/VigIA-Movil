@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonIcon } from '@ionic/angular/standalone'; // Importaciones necesarias
-import { addIcons } from 'ionicons'; // Para registrar iconos
+import { IonContent, IonIcon } from '@ionic/angular/standalone'; 
+import { addIcons } from 'ionicons'; 
 import { documentTextOutline, arrowForwardCircleOutline } from 'ionicons/icons'; 
 import { supabase } from '../../supabase';
+// IMPORTANTE: Importamos el componente de la Navbar
+import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
 
 @Component({
   selector: 'app-blog',
@@ -12,8 +14,9 @@ import { supabase } from '../../supabase';
   standalone: true,
   imports: [
     CommonModule, 
-    IonContent, // Agregado para corregir NG8001 y NG8002
-    IonIcon     // Agregado para corregir NG8001
+    IonContent, 
+    IonIcon,
+    CustomNavbarComponent // Lo agregamos a los imports del componente
   ]
 })
 export class BlogPage implements OnInit {

@@ -1,16 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IonContent, IonIcon, IonLabel } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons'; 
-import { 
-  home, 
-  helpCircle, 
-  map, 
-  calendar, 
-  documentText, 
-  ellipsisHorizontal 
-} from 'ionicons/icons'; 
+import { IonContent, IonIcon } from '@ionic/angular/standalone';
+import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
 
 @Component({
   selector: 'app-home',
@@ -22,25 +14,16 @@ import {
     RouterLink, 
     RouterLinkActive,
     IonContent, 
-    IonIcon, 
-    IonLabel
+    IonIcon,
+    CustomNavbarComponent
   ],
 })
 export class HomePage {
 
   constructor() {
-    addIcons({ 
-      home, 
-      'help-circle': helpCircle, 
-      map, 
-      calendar, 
-      'document-text': documentText, 
-      'ellipsis-horizontal': ellipsisHorizontal 
-    });
   }
 
   seleccionar(tab: string) {
     console.log('Cambiando a sección:', tab);
   }
-
 }

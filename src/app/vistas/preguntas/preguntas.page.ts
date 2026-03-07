@@ -8,16 +8,15 @@ import {
   IonButton, IonTextarea, IonInput 
 } from '@ionic/angular/standalone';
 
-// Iconos y Conexión
 import { addIcons } from 'ionicons';
 import { 
-  home, helpCircle, map, calendar, documentText, ellipsisHorizontal,
   clipboardOutline, helpCircleOutline, arrowForwardOutline, 
   documentTextOutline, paperPlane, searchOutline
 } from 'ionicons/icons';
 
-// Importación del cliente de Supabase (ajusta la ruta según tu estructura)
+// Conexión a Supabase y Navbar
 import { supabase } from '../../supabase'; 
+import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
 
 @Component({
   selector: 'app-preguntas',
@@ -28,15 +27,14 @@ import { supabase } from '../../supabase';
     CommonModule, FormsModule, RouterLink, RouterLinkActive,
     IonContent, IonSearchbar, IonIcon, IonLabel, IonSegment, 
     IonSegmentButton, IonAccordion, IonAccordionGroup, IonItem, 
-    IonButton, IonTextarea, IonInput
+    IonButton, IonTextarea, IonInput,
+    CustomNavbarComponent
   ]
 })
 export class PreguntasPage implements OnInit {
   segmentoActual: string = 'frecuentes';
   textoBusqueda: string = '';
-  
-  // Arreglo que almacenará los datos de PostgreSQL
-  preguntas: any[] = [];
+  preguntas: any[] = []; 
 
   nuevaPregunta = {
     nombre_persona: '',
@@ -47,54 +45,46 @@ export class PreguntasPage implements OnInit {
 
   constructor() {
     addIcons({ 
-      home, 'help-circle': helpCircle, map, calendar, 
-      'document-text': documentText, 'ellipsis-horizontal': ellipsisHorizontal,
-      'clipboard-outline': clipboardOutline, 'help-circle-outline': helpCircleOutline,
-      'arrow-forward-outline': arrowForwardOutline, 'document-text-outline': documentTextOutline,
-      'paper-plane': paperPlane, 'search-outline': searchOutline
+      'clipboard-outline': clipboardOutline,
+      'help-circle-outline': helpCircleOutline,
+      'arrow-forward-outline': arrowForwardOutline,
+      'document-text-outline': documentTextOutline,
+      'paper-plane': paperPlane,
+      'search-outline': searchOutline
     });
   }
 
-  // Al iniciar la app en tu OnePlus, se cargan los datos
   async ngOnInit() {
     await this.cargarPreguntas();
   }
 
-  /**
-   * Obtiene las preguntas desde la base de datos de Supabase
-   */
   async cargarPreguntas() {
-  try {
-    const { data, error } = await supabase
-      .from('preguntas_enviadas')
-      .select('*')
-      // REGLA 1: Solo traer las que NO tengan la respuesta nula o vacía
-      .not('respuesta', 'is', null)
-      .neq('respuesta', '') 
-      .order('created_at', { ascending: false });
+    try {
+      const { data, error } = await supabase
+        .from('preguntas_enviadas')
+        .select('*')
+        .not('respuesta', 'is', null)
+        .order('created_at', { ascending: false });
 
-    if (error) throw error;
+      if (error) throw error;
 
-    // REGLA 2: Filtrar localmente las que tengan el formato ¿ ?
-    this.preguntas = (data || []).filter(q => {
-      const texto = q.pregunta?.trim() || '';
-      return texto.startsWith('¿') && texto.endsWith('?');
-    });
-    
-  } catch (err: any) {
-    console.error('Error cargando preguntas:', err.message);
+      // Filtro de formato ¿ ?
+      this.preguntas = (data || []).filter(q => {
+        const texto = q.pregunta?.trim() || '';
+        return texto.startsWith('¿') && texto.endsWith('?');
+      });
+      
+    } catch (err: any) {
+      console.error('Error en VigIA-BD:', err.message);
+    }
   }
-}
 
-get preguntasFiltradas() {
-  return this.preguntas.filter(q => 
-    q.pregunta?.toLowerCase().includes(this.textoBusqueda.toLowerCase())
-  );
-}
+  get preguntasFiltradas() {
+    return this.preguntas.filter(q => 
+      q.pregunta?.toLowerCase().includes(this.textoBusqueda.toLowerCase())
+    );
+  }
 
-  /**
-   * Envía una nueva duda a la base de datos
-   */
   async enviarPregunta() {
     if (this.nuevaPregunta.website !== '') return;
     if (this.nuevaPregunta.pregunta.length < 10) {
@@ -113,9 +103,9 @@ get preguntasFiltradas() {
 
       if (error) throw error;
       this.limpiarFormulario();
-      alert("¡Enviada! En breve aparecerá en la sección de frecuentes.");
+      alert("Enviada con éxito.");
     } catch (err: any) {
-      alert("Error al enviar: " + err.message);
+      alert("Error: " + err.message);
     }
   }
 
