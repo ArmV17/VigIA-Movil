@@ -1,31 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonIcon } from '@ionic/angular/standalone'; 
+import { IonContent, IonIcon, ModalController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons'; 
-import { documentTextOutline, arrowForwardCircleOutline } from 'ionicons/icons'; 
+import { documentTextOutline, arrowForwardCircleOutline, closeOutline } from 'ionicons/icons'; 
 import { supabase } from '../../supabase';
-// IMPORTANTE: Importamos el componente de la Navbar
 import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
+import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.page.html',
   styleUrls: ['./blog.page.scss'],
   standalone: true,
-  imports: [
-    CommonModule, 
-    IonContent, 
-    IonIcon,
-    CustomNavbarComponent // Lo agregamos a los imports del componente
-  ]
+  imports: [CommonModule, IonContent, IonIcon, CustomNavbarComponent]
 })
 export class BlogPage implements OnInit {
   posts: any[] = [];
 
-  constructor() {
+  constructor(private modalCtrl: ModalController) { 
     addIcons({ 
       'document-text-outline': documentTextOutline, 
-      'arrow-forward-circle-outline': arrowForwardCircleOutline 
+      'arrow-forward-circle-outline': arrowForwardCircleOutline,
+      'close-outline': closeOutline 
     });
   }
 
@@ -44,7 +40,11 @@ export class BlogPage implements OnInit {
     }
   }
 
-  leerMas(post: any) {
-    console.log('Abriendo:', post.titulo);
+  async leerMas(post: any) {
+    const modal = await this.modalCtrl.create({
+      component: BlogDetailComponent,
+      componentProps: { post: post }
+    });
+    return await modal.present();
   }
 }
