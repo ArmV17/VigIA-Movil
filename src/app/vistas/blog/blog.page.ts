@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonIcon, ModalController } from '@ionic/angular/standalone';
+import { IonContent, IonIcon, ModalController } from '@ionic/angular/standalone'; 
 import { addIcons } from 'ionicons'; 
-import { documentTextOutline, arrowForwardCircleOutline, closeOutline } from 'ionicons/icons'; 
+import { documentTextOutline, arrowForwardCircleOutline, closeOutline, personOutline } from 'ionicons/icons'; 
 import { supabase } from '../../supabase';
 import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
-import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import { BlogDetailComponent } from './blog-detail/blog-detail.component'; 
 
 @Component({
   selector: 'app-blog',
@@ -17,11 +17,12 @@ import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 export class BlogPage implements OnInit {
   posts: any[] = [];
 
-  constructor(private modalCtrl: ModalController) { 
+  constructor(private modalCtrl: ModalController) {
     addIcons({ 
       'document-text-outline': documentTextOutline, 
       'arrow-forward-circle-outline': arrowForwardCircleOutline,
-      'close-outline': closeOutline 
+      'close-outline': closeOutline,
+      'person-outline': personOutline 
     });
   }
 
@@ -30,10 +31,11 @@ export class BlogPage implements OnInit {
   }
 
   async cargarPosts() {
+    // Apuntamos a la nueva tabla cross_asistent_articulos
     const { data, error } = await supabase
-      .from('blog_posts')
+      .from('cross_asistent_articulos')
       .select('*')
-      .order('fecha', { ascending: false });
+      .order('creacion', { ascending: false });
 
     if (!error) {
       this.posts = data || [];
