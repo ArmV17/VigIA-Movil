@@ -1,0 +1,70 @@
+<section class="chat-panel open" id="chatPanel">
+  <!-- extra twinkle layer -->
+  <div class="stars-layer"></div>
+
+  <div class="chat-panel-inner">
+    <!-- Header -->
+    <div class="chat-panel-header">
+      <h3 class="chat-panel-title">
+        <img src="assets/imgs/VigIA-Logo-Rem.png" alt="Icono Halcón" class="small-logo">
+        VigIA
+      </h3>
+      <div class="chat-panel-header-actions">
+        <button type="button" class="chat-header-btn speak_btn" id="speakBtn" title="Reproducir / Pausar voz"
+          (click)="toggleTTS()">
+          <ion-icon [name]="isSpeaking ? 'pause-circle-outline' : 'play-circle-outline'"></ion-icon>
+        </button>
+        <button type="button" class="chat-header-btn" id="closeChatPanel" title="Cerrar chat" (click)="closeModal()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-panel-messages" id="output" #messagesContainer>
+      <div *ngFor="let msg of messages"
+        [ngClass]="{'chat_msg': true, 'asistent_response': msg.sender==='bot', 'user_response': msg.sender==='user'}"
+        class="chat_msg">
+
+        <!-- Bot message (HTML) -->
+        <span *ngIf="msg.sender === 'bot'" [innerHTML]="msg.htmlText || msg.text"></span>
+
+        <!-- User message (Plain Text) -->
+        <span *ngIf="msg.sender === 'user'">{{ msg.text }}</span>
+
+        <!-- Optional Image -->
+        <img *ngIf="msg.imageUrl" [src]="msg.imageUrl" class="chat-img-attachment" />
+
+        <!-- Optional Link Button -->
+        <a *ngIf="msg.redirectUrl" [href]="msg.redirectUrl" target="_blank" class="chat-link-btn">
+          Ver Más <ion-icon name="open-outline"></ion-icon>
+        </a>
+      </div>
+
+      <!-- Typing indicator -->
+      <div class="chat_msg asistent_response typing-indicator" *ngIf="isTyping">
+        <div class="typing-dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input area (inside inner, NOT fixed) -->
+    <form id="chatForm" class="chat-panel-input" (submit)="sendMessage(); $event.preventDefault()">
+      <div class="chat-input-row">
+        <textarea class="chat-textarea" id="txtQuestion" name="question" rows="1" maxlength="200"
+          placeholder="Escribe tu pregunta..." [(ngModel)]="userMessage"
+          (keydown.enter)="onEnterKey($event)"></textarea>
+        <button type="button" class="chat-input-btn chat-mic-btn" id="chatMicBtn" title="Usar micrófono"
+          (click)="toggleMicrophone()">
+          <ion-icon [name]="isRecording ? 'square' : 'mic-outline'" [class.recording-pulse]="isRecording"></ion-icon>
+        </button>
+        <button type="submit" id="chatForm_submit" class="chat-input-btn chat-send-btn" title="Enviar">
+          <ion-icon name="send"></ion-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
