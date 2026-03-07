@@ -1,0 +1,99 @@
+.vigi-container {
+  --background: radial-gradient(circle, #1a3a5a 0%, #0a192f 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+// Logo Superior UTC
+.top-logo-container {
+  position: absolute;
+  top: 20px;    
+  left: 20px;   
+  z-index: 100; 
+
+  .main-logo {
+    width: 70px; 
+    height: auto;
+    display: block;
+    filter: grayscale(100%) brightness(0%) invert(100%) 
+            drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+  }
+}
+
+.blog-content {
+  margin-top: 80px;
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+.titulo {
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 25px;
+  ion-icon { color: #3b82f6; }
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.blog-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .card-body {
+    padding: 15px;
+
+    .categoria {
+      color: #3b82f6;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .card-title {
+      color: #fff;
+      font-size: 18px;
+      margin: 8px 0;
+    }
+
+    .card-excerpt {
+      color: #cbd5e1;
+      font-size: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    color: #8a9bb8;
+    
+    ion-icon { font-size: 24px; color: #3b82f6; }
+  }
+}
