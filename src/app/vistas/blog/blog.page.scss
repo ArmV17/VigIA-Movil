@@ -1,89 +1,136 @@
+/* Contenedor principal de la página */
 .vigi-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  --background: transparent;
+  --background: #0f172a; /* Fondo oscuro profundo */
 }
 
 .blog-content {
   margin-top: 80px;
   padding: 16px;
   padding-bottom: 100px;
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
 }
 
 .titulo {
   color: #fff;
   font-weight: 700;
-  margin-bottom: 25px;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
   ion-icon {
+    color: #3b82f6;
+    font-size: 1.2em;
+  }
+}
+
+/* Rejilla del Blog */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+/* Estilo Base: Tarjeta y Modal */
+.blog-card, .modal-article {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* EFECTO HOVER (Solo para las tarjetas de la lista) */
+.blog-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* CONTENEDOR DE IMAGEN (El secreto para que el logo se vea bien) */
+.card-img-container, .modal-img-container {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4); /* Fondo para resaltar el logo */
+  padding: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-img, .modal-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* No corta la imagen, la ajusta al espacio */
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.6));
+}
+
+/* Cuerpo del Contenido */
+.card-body, .modal-body {
+  padding: 20px;
+  flex-grow: 1;
+
+  .categoria-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: #3b82f6;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .card-title, .modal-title {
+    color: #fff;
+    font-size: 22px;
+    margin: 10px 0;
+    font-weight: 700;
+  }
+
+  .card-excerpt, .modal-text {
+    color: #94a3b8;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+/* Footer de la tarjeta */
+.card-footer {
+  padding: 0 20px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #64748b;
+  font-size: 13px;
+
+  ion-icon {
+    font-size: 24px;
     color: #3b82f6;
   }
 }
 
-.blog-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  align-items: start;
-}
-
-.blog-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  .card-img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-  }
-
-  .card-body {
-    padding: 15px;
-
-    .categoria {
-      color: #3b82f6;
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .card-title {
-      color: #fff;
-      font-size: 18px;
-      margin: 8px 0;
-    }
-
-    .card-excerpt {
-      color: #cbd5e1;
-      font-size: 14px;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-  }
-
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-    color: #8a9bb8;
-
-    ion-icon {
-      font-size: 24px;
-      color: #3b82f6;
-    }
-  }
+/* ESPECÍFICO DEL MODAL */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
+  
+  h2 { margin: 0; font-size: 1rem; opacity: 0.8; }
+  ion-icon { font-size: 1.8rem; cursor: pointer; }
 }
