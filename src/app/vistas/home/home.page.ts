@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IonContent, IonIcon, IonLabel, ModalController } from '@ionic/angular/standalone';
+import { IonContent, IonIcon, ModalController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   home,
@@ -12,6 +12,7 @@ import {
   ellipsisHorizontal
 } from 'ionicons/icons';
 import { VigiaModalComponent } from './vigía-modal/vigia-modal.component';
+import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,7 @@ import { VigiaModalComponent } from './vigía-modal/vigia-modal.component';
     RouterLinkActive,
     IonContent,
     IonIcon,
-    IonLabel
+    CustomNavbarComponent
   ],
 })
 export class HomePage {
@@ -54,5 +55,4 @@ export class HomePage {
   seleccionar(tab: string) {
     console.log('Cambiando a sección:', tab);
   }
-
 }
