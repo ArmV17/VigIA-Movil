@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LogoUtcComponent } from '../../components/logo-utc/logo-utc.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonContent, IonIcon, ModalController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -25,6 +26,7 @@ import { CustomNavbarComponent } from '../../components/custom-navbar/custom-nav
     RouterLinkActive,
     IonContent,
     IonIcon,
+    LogoUtcComponent,
     CustomNavbarComponent
   ],
 })

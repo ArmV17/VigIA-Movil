@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LogoUtcComponent } from '../../components/logo-utc/logo-utc.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   IonContent, IonSearchbar, IonIcon, IonLabel, IonSegment,
@@ -27,7 +28,7 @@ import { CustomNavbarComponent } from '../../components/custom-navbar/custom-nav
     CommonModule, FormsModule, RouterLink, RouterLinkActive,
     IonContent, IonSearchbar, IonIcon, IonLabel, IonSegment,
     IonSegmentButton, IonAccordion, IonAccordionGroup, IonItem,
-    IonButton, IonTextarea, IonInput,
+    IonButton, IonTextarea, IonInput,LogoUtcComponent,
     CustomNavbarComponent
   ]
 })

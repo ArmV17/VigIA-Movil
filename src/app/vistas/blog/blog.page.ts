@@ -4,6 +4,7 @@ import { IonContent, IonIcon, ModalController } from '@ionic/angular/standalone'
 import { addIcons } from 'ionicons';
 import { documentTextOutline, arrowForwardCircleOutline, closeOutline, personOutline } from 'ionicons/icons';
 import { supabase } from '../../supabase';
+import { LogoUtcComponent } from '../../components/logo-utc/logo-utc.component';
 import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 
@@ -14,7 +15,7 @@ import { NgFor, NgIf, DatePipe } from '@angular/common';
   templateUrl: './blog.page.html',
   styleUrls: ['./blog.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon, CustomNavbarComponent, NgFor, NgIf, DatePipe],
+  imports: [CommonModule, IonContent, IonIcon, CustomNavbarComponent, NgFor, NgIf, DatePipe,LogoUtcComponent],
   providers: [ModalController]
 })
 export class BlogPage implements OnInit {

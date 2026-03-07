@@ -180,7 +180,5 @@ ion-router-outlet,
 ion-content,
 .ion-page,
 .global-stars-layer {
-    background: transparent !important;
-    --background: transparent !important;
-    --ion-background-color: transparent !important;
+    --background: #000;
 }

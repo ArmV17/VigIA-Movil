@@ -2,20 +2,6 @@
   --background: transparent;
 }
 
-/* ================= LOGO UTC ================= */
-.top-logo-container {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 100;
-
-  .main-logo {
-    width: 70px;
-    height: auto;
-    filter: grayscale(100%) brightness(0%) invert(100%) drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
-  }
-}
-
 .preguntas-content {
   margin-top: 80px;
   padding: 16px;
