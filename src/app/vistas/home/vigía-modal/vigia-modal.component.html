@@ -57,10 +57,6 @@
         <textarea class="chat-textarea" id="txtQuestion" name="question" rows="1" maxlength="200"
           placeholder="Escribe tu pregunta..." [(ngModel)]="userMessage"
           (keydown.enter)="onEnterKey($event)"></textarea>
-        <button type="button" class="chat-input-btn chat-mic-btn" id="chatMicBtn" title="Usar micrófono"
-          (click)="toggleMicrophone()">
-          <ion-icon [name]="isRecording ? 'square' : 'mic-outline'" [class.recording-pulse]="isRecording"></ion-icon>
-        </button>
         <button type="submit" id="chatForm_submit" class="chat-input-btn chat-send-btn" title="Enviar">
           <ion-icon name="send"></ion-icon>
         </button>
