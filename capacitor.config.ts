@@ -1,9 +1,9 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.utc.vigia',
-  appName: 'VigIA',
-  webDir: 'www'
+  appId: 'io.ionic.starter',
+  appName: 'VigIA_Movil',
+  webDir: 'www',
 };
 
 export default config;
