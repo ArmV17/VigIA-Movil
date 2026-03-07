@@ -1,28 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonIcon, ModalController } from '@ionic/angular/standalone'; 
-import { addIcons } from 'ionicons'; 
-import { documentTextOutline, arrowForwardCircleOutline, closeOutline, personOutline } from 'ionicons/icons'; 
+import { IonContent, IonIcon, ModalController } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { documentTextOutline, arrowForwardCircleOutline, closeOutline, personOutline } from 'ionicons/icons';
 import { supabase } from '../../supabase';
 import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
-import { BlogDetailComponent } from './blog-detail/blog-detail.component'; 
+import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+
+import { NgFor, NgIf, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.page.html',
   styleUrls: ['./blog.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon, CustomNavbarComponent]
+  imports: [CommonModule, IonContent, IonIcon, CustomNavbarComponent, NgFor, NgIf, DatePipe],
+  providers: [ModalController]
 })
 export class BlogPage implements OnInit {
   posts: any[] = [];
 
   constructor(private modalCtrl: ModalController) {
-    addIcons({ 
-      'document-text-outline': documentTextOutline, 
+    addIcons({
+      'document-text-outline': documentTextOutline,
       'arrow-forward-circle-outline': arrowForwardCircleOutline,
       'close-outline': closeOutline,
-      'person-outline': personOutline 
+      'person-outline': personOutline
     });
   }
 

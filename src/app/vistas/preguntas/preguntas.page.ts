@@ -2,20 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { 
-  IonContent, IonSearchbar, IonIcon, IonLabel, IonSegment, 
-  IonSegmentButton, IonAccordion, IonAccordionGroup, IonItem, 
-  IonButton, IonTextarea, IonInput 
+import {
+  IonContent, IonSearchbar, IonIcon, IonLabel, IonSegment,
+  IonSegmentButton, IonAccordion, IonAccordionGroup, IonItem,
+  IonButton, IonTextarea, IonInput
 } from '@ionic/angular/standalone';
 
 import { addIcons } from 'ionicons';
-import { 
-  clipboardOutline, helpCircleOutline, arrowForwardOutline, 
+import {
+  clipboardOutline, helpCircleOutline, arrowForwardOutline,
   documentTextOutline, paperPlane, searchOutline
 } from 'ionicons/icons';
 
 // Conexión a Supabase y Navbar
-import { supabase } from '../../supabase'; 
+import { supabase } from '../../supabase';
 import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
 
 @Component({
@@ -25,8 +25,8 @@ import { CustomNavbarComponent } from '../../components/custom-navbar/custom-nav
   standalone: true,
   imports: [
     CommonModule, FormsModule, RouterLink, RouterLinkActive,
-    IonContent, IonSearchbar, IonIcon, IonLabel, IonSegment, 
-    IonSegmentButton, IonAccordion, IonAccordionGroup, IonItem, 
+    IonContent, IonSearchbar, IonIcon, IonLabel, IonSegment,
+    IonSegmentButton, IonAccordion, IonAccordionGroup, IonItem,
     IonButton, IonTextarea, IonInput,
     CustomNavbarComponent
   ]
@@ -34,17 +34,17 @@ import { CustomNavbarComponent } from '../../components/custom-navbar/custom-nav
 export class PreguntasPage implements OnInit {
   segmentoActual: string = 'frecuentes';
   textoBusqueda: string = '';
-  preguntas: any[] = []; 
+  preguntas: any[] = [];
 
   nuevaPregunta = {
     nombre_persona: '',
     pregunta: '',
     descripcion: '',
-    website: '' 
+    website: ''
   };
 
   constructor() {
-    addIcons({ 
+    addIcons({
       'clipboard-outline': clipboardOutline,
       'help-circle-outline': helpCircleOutline,
       'arrow-forward-outline': arrowForwardOutline,
@@ -69,18 +69,17 @@ export class PreguntasPage implements OnInit {
       if (error) throw error;
 
       // Filtro de formato ¿ ?
-      this.preguntas = (data || []).filter(q => {
-        const texto = q.pregunta?.trim() || '';
-        return texto.startsWith('¿') && texto.endsWith('?');
+      this.preguntas = (data || []).filter((q: any) => {
+        return q.pregunta && q.respuesta;
       });
-      
+
     } catch (err: any) {
       console.error('Error en VigIA-BD:', err.message);
     }
   }
 
   get preguntasFiltradas() {
-    return this.preguntas.filter(q => 
+    return this.preguntas.filter(q =>
       q.pregunta?.toLowerCase().includes(this.textoBusqueda.toLowerCase())
     );
   }
@@ -95,10 +94,10 @@ export class PreguntasPage implements OnInit {
     try {
       const { error } = await supabase
         .from('preguntas_enviadas')
-        .insert([{ 
-          nombre_persona: this.nuevaPregunta.nombre_persona, 
-          pregunta: this.nuevaPregunta.pregunta, 
-          descripcion: this.nuevaPregunta.descripcion 
+        .insert([{
+          nombre_persona: this.nuevaPregunta.nombre_persona,
+          pregunta: this.nuevaPregunta.pregunta,
+          descripcion: this.nuevaPregunta.descripcion
         }]);
 
       if (error) throw error;

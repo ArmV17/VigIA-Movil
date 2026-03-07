@@ -1,24 +1,23 @@
 .vigi-container {
-  --background: radial-gradient(circle, #1a3a5a 0%, #0a192f 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  --background: transparent;
 }
 
 // Logo Superior UTC
 .top-logo-container {
   position: absolute;
-  top: 20px;    
-  left: 20px;   
-  z-index: 100; 
+  top: 20px;
+  left: 20px;
+  z-index: 100;
 
   .main-logo {
-    width: 70px; 
+    width: 70px;
     height: auto;
     display: block;
-    filter: grayscale(100%) brightness(0%) invert(100%) 
-            drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+    filter: grayscale(100%) brightness(0%) invert(100%) drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
   }
 }
 
@@ -32,15 +31,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer; 
+  cursor: pointer;
   transition: transform 0.3s ease-in-out;
 
   &:hover {
-    transform: translate(-50%, -50%) scale(1.1); 
+    transform: translate(-50%, -50%) scale(1.1);
   }
 
   &:active {
-    transform: translate(-50%, -50%) scale(0.95); 
+    transform: translate(-50%, -50%) scale(0.95);
   }
 }
 
@@ -48,8 +47,7 @@
   width: 160px;
   height: auto;
   display: block;
-  filter: drop-shadow(0 0 15px rgba(100, 180, 255, 0.6))
-          drop-shadow(0 0 30px rgba(100, 180, 255, 0.3));
+  filter: drop-shadow(0 0 15px rgba(100, 180, 255, 0.6)) drop-shadow(0 0 30px rgba(100, 180, 255, 0.3));
   transition: filter 0.3s ease;
 }
 
@@ -63,21 +61,22 @@
     padding: 4px;
     gap: 2px;
   }
-  
+
   .nav-button {
     padding: 0 8px;
     min-width: 40px;
-    
+
     ion-icon {
       font-size: 20px;
     }
-    
+
     .nav-text {
       font-size: 12px;
       margin-left: 4px;
     }
 
-    &.active, &:hover {
+    &.active,
+    &:hover {
       padding: 0 12px;
     }
   }

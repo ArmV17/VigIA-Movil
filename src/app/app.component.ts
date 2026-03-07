@@ -5,6 +5,7 @@ import { ApiService } from './servicios/api.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss'],
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent implements OnInit {
