@@ -2,6 +2,17 @@
   --background: transparent;
 }
 
+/* BARRA DE BÚSQUEDA - Letras blancas al escribir */
+.custom-searchbar {
+  --background: rgba(255, 255, 255, 0.05); /* Fondo cristal */
+  --color: #ffffff; /* TEXTO QUE ESCRIBE EL USUARIO EN BLANCO */
+  --placeholder-color: rgba(255, 255, 255, 0.5); /* Color del texto de ayuda */
+  --icon-color: #3b82f6; /* Lupa en azul */
+  --border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .preguntas-content {
   margin-top: 80px;
   padding: 16px;

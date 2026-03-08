@@ -45,7 +45,10 @@ import { closeOutline } from 'ionicons/icons';
       
       <div style="padding: 20px;">
         <h1 style="color: #3b82f6; font-weight: 800; margin-bottom: 10px;">{{ post.titulo }}</h1>
-        <p style="color: #8a9bb8; font-size: 14px;">Por: {{ post.autor }} | {{ post.creacion | date }}</p>
+        
+        <p style="color: #ffffff; font-size: 14px; opacity: 0.9;">
+          Por: {{ post.autor }} | {{ post.creacion | date }}
+        </p>
         
         <hr style="border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
         
@@ -56,24 +59,21 @@ import { closeOutline } from 'ionicons/icons';
     </ion-content>
   `,
   styles: [`
-    /* Este contenedor asegura que la imagen no se corte */
     .img-wrapper {
       width: 100%;
       height: 250px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: rgba(0, 0, 0, 0.2); /* Sutil contraste para el logo */
-      padding: 20px; /* Espacio para que el águila no toque los bordes */
+      background: rgba(0, 0, 0, 0.2);
+      padding: 20px;
       overflow: hidden;
     }
 
     .full-img {
       max-width: 100%;
       max-height: 100%;
-      /* Cambiamos 'cover' por 'contain' para que se vea completa */
       object-fit: contain; 
-      /* Añadimos sombra para que resalte como en tu diseño */
       filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
     }
 
@@ -81,7 +81,7 @@ import { closeOutline } from 'ionicons/icons';
       line-height: 1.6; 
       color: #cbd5e1; 
       font-size: 16px;
-      white-space: pre-line; /* Mantiene los saltos de línea del texto */
+      white-space: pre-line;
     }
   `]
 })
