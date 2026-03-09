@@ -1,13 +1,21 @@
 <ion-content class="calendario-page">
   <div class="main-container">
     
-    <div class="side-card">
-      <h1 class="big-day">{{ diaSeleccionado < 10 ? '0' + diaSeleccionado : diaSeleccionado }}</h1>
-      <p class="month-year">{{ nombreMes }} {{ anio }}</p>
-      <hr>
-      <span class="event-label">EVENTOS</span>
-      <p class="no-events">Sin eventos este día</p>
-    </div>
+<div class="side-card">
+  <h1 class="big-day">{{ diaSeleccionado < 10 ? '0' + diaSeleccionado : diaSeleccionado }}</h1>
+  <p class="month-year">{{ nombreMes }} {{ anio }}</p>
+  
+  <div class="event-input-container">
+    <input type="text" [(ngModel)]="nuevoEvento" placeholder="¿Qué hay que hacer?">
+    <button (click)="guardarEvento()">Agregar</button>
+  </div>
+
+  <hr>
+  <span class="event-label">EVENTO DEL DÍA</span>
+  <p class="no-events">
+    {{ eventosGuardados[getClaveFecha(diaSeleccionado)] || 'Sin eventos este día' }}
+  </p>
+</div>
 
     <div class="calendar-box">
       <div class="calendar-header">
@@ -43,19 +51,7 @@
     </div>
 
   </div>
-  <div class="side-card">
-  <h1 class="big-day">{{ diaSeleccionado < 10 ? '0' + diaSeleccionado : diaSeleccionado }}</h1>
-  <p class="month-year">{{ nombreMes }} {{ anio }}</p>
-  
-  <div class="event-input-container">
-    <input type="text" [(ngModel)]="nuevoEvento" placeholder="¿Qué hay que hacer?">
-    <button (click)="guardarEvento()">Agregar</button>
-  </div>
-
-  <hr>
-  <span class="event-label">EVENTO DEL DÍA</span>
-  <p class="no-events">
-    {{ eventosGuardados[getClaveFecha(diaSeleccionado)] || 'Sin eventos este día' }}
-  </p>
-</div>
+  <ion-content [fullscreen]="true">
+  <app-custom-navbar></app-custom-navbar> 
+</ion-content>
 </ion-content>

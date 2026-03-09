@@ -56,18 +56,19 @@ export class VigiaModalComponent implements OnInit, AfterViewChecked, OnDestroy 
   }
 
   ngOnInit() {
-    this.initSpeechRecognition();
-    this.initSpeechSynthesis();
+  this.initSpeechRecognition();
+  this.initSpeechSynthesis();
 
-    // Welcome message
-    const initialText = '¡Hola!! Soy VigIA, tu asistente virtual de la Universidad Tecnológica de Coahuila. Puedes preguntarme sobre tramites, carreras, costos u otros temas de la universidad. ¿En qué puedo ayudarte?';
-    this.messages.push({
-      text: initialText,
-      sender: 'bot'
-    });
-    this.lastText = initialText;
-    this.shouldScrollToBottom = true;
-  }
+  const initialText = '¡Hola!! Soy VigIA, tu asistente virtual de la Universidad Tecnológica de Coahuila. Puedes preguntarme sobre trámites, carreras, costos u otros temas de la universidad. ¿En qué puedo ayudarte?';
+  
+  this.messages.push({
+    text: initialText,
+    sender: 'bot'
+  });
+
+  this.lastText = initialText;
+  this.shouldScrollToBottom = true;
+}
 
   ngAfterViewChecked() {
     if (this.shouldScrollToBottom) {
@@ -202,8 +203,8 @@ export class VigiaModalComponent implements OnInit, AfterViewChecked, OnDestroy 
       const { webkitSpeechRecognition }: any = window;
       this.recognition = new webkitSpeechRecognition();
       this.recognition.lang = 'es-MX';
-      this.recognition.continuous = true;
-      this.recognition.interimResults = true;
+      this.recognition.continuous = false;
+      this.recognition.interimResults = false;
 
       this.recognition.onstart = () => {
         this.isRecording = true;
@@ -214,33 +215,19 @@ export class VigiaModalComponent implements OnInit, AfterViewChecked, OnDestroy 
 
       this.recognition.onresult = (event: any) => {
         let finalTranscript = '';
-        let interimTranscript = '';
+        
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcript = event.results[i][0].transcript;
+          
           if (event.results[i].isFinal) {
             finalTranscript += transcript;
-          } else {
-            interimTranscript += transcript;
           }
         }
-        // Always append interim to what we already finalized
-        this.userMessage += finalTranscript;
-        // The display will be the ongoing text + interim text. 
-        // For simplicity, we just set the textarea to current transcription:
-        // A better approach is storing finalized chunks, but this works for short commands.
+
         if (finalTranscript) {
-          // just let it append above, userMessage already has it
-        } else {
-          // temporary override for interim
-          // Doing this strictly is hard in angular bindings without split variables, 
-          // but replacing everything with the full event transcript is easiest
-          let total = '';
-          for (let i = 0; i < event.results.length; i++) {
-            total += event.results[i][0].transcript;
-          }
-          this.userMessage = total;
+          this.userMessage = finalTranscript.trim();
+          this.cdr.detectChanges();
         }
-        this.cdr.detectChanges();
       };
 
       this.recognition.onerror = (event: any) => {
@@ -269,6 +256,15 @@ export class VigiaModalComponent implements OnInit, AfterViewChecked, OnDestroy 
         this.synth.onvoiceschanged = () => this.loadVoices();
       }
       this.loadVoices();
+
+      const autoSpeak = () => {
+        if (!this.isSpeaking && this.lastText) {
+          this.speakText(this.lastText);
+        }
+        document.removeEventListener('touchstart', autoSpeak);
+      };
+
+      document.addEventListener('touchstart', autoSpeak);
     }
   }
 
@@ -277,23 +273,29 @@ export class VigiaModalComponent implements OnInit, AfterViewChecked, OnDestroy 
   }
 
   toggleMicrophone() {
-    if (!this.microphoneSpeech) {
-      console.warn('Micrófono no soportado');
+    if (!this.recognition) {
+      alert('Reconocimiento de voz no disponible en este navegador móvil.');
       return;
     }
+
     if (this.isRecording) {
       this.stopRecording();
-      // If there's text, send it immediately
-      if (this.userMessage.trim().length > 0) {
-        this.sendMessage(true);
-      }
     } else {
-      // Stop TTS if speaking before starting mic
-      if (this.isSpeaking) this.toggleTTS();
+      if (this.isSpeaking) {
+        this.synth.cancel();
+        this.isSpeaking = false;
+      }
+
       this.userMessage = '';
+      
       try {
+        this.recognition.abort();
+        setTimeout(() => {
+          this.recognition.start();
+        }, 150);
+      } catch (e) {
         this.recognition.start();
-      } catch (e) { console.error('Error starting recognition', e); }
+      }
     }
   }
 
@@ -312,45 +314,47 @@ export class VigiaModalComponent implements OnInit, AfterViewChecked, OnDestroy 
     if (this.isSpeaking) {
       this.synth.cancel();
       this.isSpeaking = false;
+      this.cdr.detectChanges();
     } else {
-      if (!this.lastText) return;
-      this.speakText(this.lastText);
+      const textToRead = this.lastText || '¡Hola!! Soy VigIA, tu asistente virtual de la Universidad Tecnológica de Coahuila...';
+      this.speakText(textToRead);
     }
   }
 
   private speakText(text: string) {
     if (!this.synth) return;
-    this.synth.cancel(); // Cancel any ongoing speech
+    this.synth.cancel(); 
 
     const cleanText = this.removeEmojis(text);
-    this.utterance = new SpeechSynthesisUtterance(cleanText);
-    this.utterance.lang = 'es-MX';
-    this.utterance.rate = 1.2;
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    
+    utterance.lang = 'es-MX';
+    utterance.rate = 1.0; 
+    utterance.pitch = 1.0;
 
-    // Try to find a good Spanish voice
-    const esVoices = this.voices.filter(v => v.lang.startsWith('es'));
-    if (esVoices.length > 0) {
-      const preferred = esVoices.find(v => v.name.includes('Microsoft Sebastian') || v.name.includes('Google español'));
-      this.utterance.voice = preferred || esVoices[0];
+    let currentVoices = this.synth.getVoices();
+    if (currentVoices.length === 0) {
+      this.loadVoices();
+      currentVoices = this.voices;
     }
 
-    this.utterance.onstart = () => {
+    const esVoices = currentVoices.filter(v => v.lang.includes('es'));
+    if (esVoices.length > 0) {
+      const preferred = esVoices.find(v => v.name.includes('Google') || v.name.includes('Mexico'));
+      utterance.voice = preferred || esVoices[0];
+    }
+
+    utterance.onstart = () => {
       this.isSpeaking = true;
       this.cdr.detectChanges();
     };
 
-    this.utterance.onend = () => {
+    utterance.onend = () => {
       this.isSpeaking = false;
       this.cdr.detectChanges();
     };
 
-    this.utterance.onerror = () => {
-      this.isSpeaking = false;
-      this.cdr.detectChanges();
-    };
-
-    this.synth.speak(this.utterance);
-    this.isSpeaking = true;
+    this.synth.speak(utterance);
   }
 
   private removeEmojis(text: string): string {
