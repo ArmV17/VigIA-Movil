@@ -10,7 +10,9 @@ import { supabase } from '../supabase';
   providedIn: 'root'
 })
 export class ApiService {
+  // Centralizamos las URLs desde environment
   private baseUrl = environment.apiBaseUrl;
+  private chatUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -31,55 +33,70 @@ export class ApiService {
   // --- LÓGICA DE DATOS CON CACHÉ (Blog, Preguntas, Calendario) ---
 
   /**
-   * Esta función es la "maestra" para traer datos de Supabase.
-   * 1. Busca en el celular (Caché) y lo entrega de inmediato.
-   * 2. Intenta ir a Supabase, si hay datos nuevos, actualiza el caché y la vista.
+   * Obtiene datos de Supabase con respaldo offline automático.
+   * Prioriza la carga de red pero devuelve el caché si no hay internet 
+   * o si la tabla tarda en responder.
    */
+  obtenerDatosConCache(tabla: string): Observable<any[]> {
+    return from(this.obtenerLocal(`cache_${tabla}`)).pipe(
+      switchMap(cache => {
+        // Petición a Supabase con orden descendente opcional
+        const obsSupabase = from(
+          supabase.from(tabla)
+            .select('*')
+            .order('created_at', { ascending: false })
+        ).pipe(
+          map(({ data, error }) => {
+            if (error) {
+              console.error(`Error Supabase [${tabla}]:`, error.message);
+              throw error;
+            }
+            if (data && data.length > 0) {
+              // Actualizamos el "baúl" del celular con datos frescos
+              this.guardarLocal(`cache_${tabla}`, data);
+              return data;
+            }
+            return cache || [];
+          }),
+          catchError((err) => {
+            console.warn(`VigIA Offline - Usando caché para: ${tabla}`);
+            return of(cache || []);
+          })
+        );
 
-// En api.service.ts
-obtenerDatosConCache(tabla: string): Observable<any[]> {
-  return from(this.obtenerLocal(`cache_${tabla}`)).pipe(
-    switchMap(cache => {
-      // Si hay cache, lo entregamos primero para que no se vea vacío
-      const obsCache = of(cache || []);
-      
-      // Petición a Supabase
-      const obsSupabase = from(supabase.from(tabla).select('*')).pipe(
-        map(({ data, error }) => {
-          if (error) throw error;
-          if (data && data.length > 0) {
-            this.guardarLocal(`cache_${tabla}`, data);
-            return data;
-          }
-          return cache || [];
-        }),
-        catchError(() => of(cache || []))
-      );
-      
-      return obsSupabase; 
-    })
-  );
-}
+        // Si el caché está vacío, esperamos a la red obligatoriamente.
+        // Si ya hay caché, devolvemos el observable de red que lo actualizará.
+        return obsSupabase; 
+      })
+    );
+  }
 
   // --- CHATBOT ASISTENTE ---
 
   sendChatMessage(question: string): Observable<any> {
-    return this.http.post<any>(environment.apiUrl, { question }).pipe(
+    return this.http.post<any>(this.chatUrl, { question }).pipe(
       tap(res => {
         if (res && res.success) {
+          // Guardamos la última respuesta exitosa para el modo offline
           this.guardarLocal('last_bot_response', res);
         }
       }),
       catchError(async (err) => {
+        console.warn('Asistente VigIA: Error de red. Buscando última respuesta...');
         const fallback = await this.obtenerLocal('last_bot_response');
         if (fallback) {
-          fallback.answer.informacion = "(Modo Offline) " + fallback.answer.informacion;
+          // Marcamos la respuesta para que el usuario sepa que es offline
+          if (fallback.answer) {
+            fallback.answer.informacion = "(Modo Offline) " + fallback.answer.informacion;
+          }
           return fallback;
         }
         throw err;
       })
     ) as any;
   }
+
+  // --- VERIFICACIÓN DE ESTADO ---
 
   checkStatus(): Observable<any> {
     return this.http.get(`${this.baseUrl}/status/`);

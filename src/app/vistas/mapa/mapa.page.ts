@@ -2,6 +2,7 @@ import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 import mapboxgl from 'mapbox-gl';
 
 // Componentes globales de VigIA
