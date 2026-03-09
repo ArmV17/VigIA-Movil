@@ -1,38 +1,27 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="dark">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Mapa UTC</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-logo-utc></app-logo-utc>
 
-<ion-content [forceOverscroll]="false">
+<ion-content [fullscreen]="true">
   <div id="map"></div>
 
-  <div id="routingPanel" class="card text-bg-dark border-secondary">
-    <div class="card-body p-2">
-      <select id="origen" class="form-select mb-2 bg-dark text-white border-secondary">
-        <option value="GPS">📍 Mi ubicación</option>
-      </select>
-      <select id="destino" class="form-select mb-2 bg-dark text-white border-secondary">
-        <option value="" disabled selected>¿A dónde vas?</option>
-      </select>
-      <div class="d-flex justify-content-between align-items-center">
-        <button id="btnResetRuta" class="btn btn-sm btn-outline-info">🔄 Reiniciar</button>
-        <div id="routeInfo" style="display: none; font-size: 0.8rem;">
-          <span id="routeDist"></span> | <span id="routeTime"></span>
-        </div>
-      </div>
-    </div>
+  <div id="routingPanel">
+    <select id="origen" class="map-select">
+      <option value="GPS">📍 Mi ubicación</option>
+    </select>
+    <select id="destino" class="map-select">
+      <option value="" disabled selected>¿A dónde vas?</option>
+    </select>
+    <button id="btnResetRuta" class="map-btn">🔄 Reiniciar</button>
   </div>
 
   <div id="infoPanel" [class.show]="panelVisible">
-    <button id="closePanel" (click)="closeInfoPanel()">✖</button>
+    <div class="drag-handle" (click)="closeInfoPanel()"></div>
     <img [src]="currentImg" *ngIf="currentImg" class="info-img">
-    <div class="p-3">
-      <h3 id="panelTitle">{{ currentTitle }}</h3>
-      <div id="panelText" [innerHTML]="currentText"></div>
+    <div class="info-body">
+      <h3>{{ currentTitle }}</h3>
+      <div [innerHTML]="currentText"></div>
     </div>
   </div>
+
+  <app-custom-navbar></app-custom-navbar>
 </ion-content>
