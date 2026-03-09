@@ -10,7 +10,7 @@ import {
   chevronBack, chevronForward, home, helpCircle, map, calendar, 
   documentText, ellipsisHorizontal 
 } from 'ionicons/icons'; 
-
+import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component'; // Verifica la ruta
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.page.html',
@@ -18,7 +18,7 @@ import {
   standalone: true,
   imports: [
     IonContent, IonIcon, IonButton, IonFooter, IonTabBar, 
-    IonTabButton, IonLabel, CommonModule, FormsModule
+    IonTabButton, IonLabel, CommonModule, FormsModule, CustomNavbarComponent
   ]
 })
 export class CalendarioPage implements OnInit {
