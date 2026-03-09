@@ -15,7 +15,8 @@ import {
   documentTextOutline, paperPlane, searchOutline
 } from 'ionicons/icons';
 
-// Conexión a Supabase y Navbar
+// Servicios y Navbar
+import { ApiService } from '../../servicios/api.service';
 import { supabase } from '../../supabase';
 import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
 
@@ -28,7 +29,7 @@ import { CustomNavbarComponent } from '../../components/custom-navbar/custom-nav
     CommonModule, FormsModule, RouterLink, RouterLinkActive,
     IonContent, IonSearchbar, IonIcon, IonLabel, IonSegment,
     IonSegmentButton, IonAccordion, IonAccordionGroup, IonItem,
-    IonButton, IonTextarea, IonInput,LogoUtcComponent,
+    IonButton, IonTextarea, IonInput, LogoUtcComponent,
     CustomNavbarComponent
   ]
 })
@@ -44,7 +45,7 @@ export class PreguntasPage implements OnInit {
     website: ''
   };
 
-  constructor() {
+  constructor(private apiService: ApiService) { // Inyectamos el ApiService
     addIcons({
       'clipboard-outline': clipboardOutline,
       'help-circle-outline': helpCircleOutline,
@@ -55,28 +56,24 @@ export class PreguntasPage implements OnInit {
     });
   }
 
-  async ngOnInit() {
-    await this.cargarPreguntas();
+  ngOnInit() {
+    this.cargarPreguntas();
   }
 
-  async cargarPreguntas() {
-    try {
-      const { data, error } = await supabase
-        .from('preguntas_enviadas')
-        .select('*')
-        .not('respuesta', 'is', null)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      // Filtro de formato ¿ ?
-      this.preguntas = (data || []).filter((q: any) => {
-        return q.pregunta && q.respuesta;
-      });
-
-    } catch (err: any) {
-      console.error('Error en VigIA-BD:', err.message);
-    }
+  /**
+   * Carga las preguntas usando el sistema de caché nativo del ApiService
+   */
+  cargarPreguntas() {
+    // Usamos el método con caché para la tabla 'preguntas_enviadas'
+    this.apiService.obtenerDatosConCache('preguntas_enviadas').subscribe({
+      next: (data) => {
+        // Filtramos las que tienen respuesta (como hacías antes)
+        this.preguntas = (data || []).filter((q: any) => q.pregunta && q.respuesta);
+      },
+      error: (err) => {
+        console.error('Error al cargar preguntas:', err);
+      }
+    });
   }
 
   get preguntasFiltradas() {
@@ -85,6 +82,9 @@ export class PreguntasPage implements OnInit {
     );
   }
 
+  /**
+   * El envío se queda igual (requiere internet para insertar en Supabase)
+   */
   async enviarPregunta() {
     if (this.nuevaPregunta.website !== '') return;
     if (this.nuevaPregunta.pregunta.length < 10) {
