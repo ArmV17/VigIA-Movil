@@ -68,3 +68,28 @@
     }
   }
 }
+.event-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0;
+
+  input {
+    background: #0d1b2a;
+    border: 1px solid #3a86ff;
+    border-radius: 8px;
+    padding: 8px;
+    color: white;
+    font-size: 0.9rem;
+  }
+
+  button {
+    background: #3a86ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
