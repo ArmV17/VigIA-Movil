@@ -1,0 +1,28 @@
+<ion-content [fullscreen]="true" class="vigi-container">
+  <app-logo-utc></app-logo-utc>
+
+  <div class="blog-content">
+    <h1 class="titulo">VigIA Blog</h1>
+
+    <div class="blog-grid">
+      <div class="blog-card" *ngFor="let post of posts" (click)="leerMas(post)">
+        <img *ngIf="post.encabezado" [src]="post.encabezado" class="card-img">
+        
+        <div class="card-body">
+          <div class="meta-info">
+            <span class="autor"><ion-icon name="person-outline"></ion-icon> {{ post.autor }}</span>
+          </div>
+          <h2 class="card-title">{{ post.titulo }}</h2>
+          <p class="card-excerpt">{{ post.contenido }}</p>
+          
+          <div class="card-footer">
+            <small>{{ post.creacion | date:'mediumDate' }}</small>
+            <ion-icon name="arrow-forward-circle-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <app-custom-navbar></app-custom-navbar>
+</ion-content>

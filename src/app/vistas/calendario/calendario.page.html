@@ -1,0 +1,46 @@
+<ion-content class="calendario-page">
+  <div class="main-container">
+    
+    <div class="side-card">
+      <h1 class="big-day">{{ diaSeleccionado < 10 ? '0' + diaSeleccionado : diaSeleccionado }}</h1>
+      <p class="month-year">{{ nombreMes }} {{ anio }}</p>
+      <hr>
+      <span class="event-label">EVENTOS</span>
+      <p class="no-events">Sin eventos este día</p>
+    </div>
+
+    <div class="calendar-box">
+      <div class="calendar-header">
+        <ion-button fill="clear" color="light" (click)="mesAnterior()">
+          <ion-icon name="chevron-back"></ion-icon>
+        </ion-button>
+        <div class="month-title">
+          <span>{{ anio }}</span>
+          <h2>{{ nombreMes }}</h2>
+        </div>
+        <ion-button fill="clear" color="light" (click)="mesSiguiente()">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-button>
+      </div>
+
+      <div class="grid-calendar">
+        @for (n of ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']; track n) {
+          <div class="day-name">{{ n }}</div>
+        }
+
+        @for (dia of rellenoInicial; track dia) {
+          <div class="day-cell muted">{{ dia }}</div>
+        }
+
+        @for (dia of diasMes; track dia) {
+          <div class="day-cell" 
+               [class.active]="dia === diaSeleccionado"
+               (click)="seleccionarDia(dia)">
+            {{ dia }}
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</ion-content>
