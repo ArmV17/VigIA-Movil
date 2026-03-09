@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { tap, map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-
+import { Preferences } from '@capacitor/preferences';
 @Injectable({
     providedIn: 'root'
 })
@@ -11,21 +12,38 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
-    /**
-     * Realiza un GET de prueba al backend Django para comprobar la conexión.
-     * @returns Observable con el estado de la API
-     */
+    async guardarLocal(llave: string, valor: any) {
+        await Preferences.set({
+            key: llave,
+            value: JSON.stringify(valor)
+        });
+    }
+
+    async obtenerLocal(llave: string) {
+        const { value } = await Preferences.get({ key: llave });
+        return value ? JSON.parse(value) : null;
+    }
+
     checkStatus(): Observable<any> {
         return this.http.get(`${this.baseUrl}/status/`);
     }
 
-    /**
-     * Envía una pregunta al chatbot del backend.
-     * @param question Texto de la pregunta del usuario
-     * @returns Observable con la respuesta del chatbot
-     */
     sendChatMessage(question: string): Observable<any> {
-        // Usa environment.apiUrl definido explícitamente para el chatbot ('http://127.0.0.1:8000/chatbot')
-        return this.http.post<any>(environment.apiUrl, { question });
+        return this.http.post<any>(environment.apiUrl, { question }).pipe(
+            tap(res => {
+                if (res && res.success) {
+                    this.guardarLocal('last_bot_response', res);
+                }
+            }),
+            catchError(async (err) => {
+                console.warn('Error de conexión o servidor. Buscando respaldo local...');
+                const fallback = await this.obtenerLocal('last_bot_response');
+                if (fallback) {
+                    fallback.answer.informacion = "(Modo Sin Internet) " + fallback.answer.informacion;
+                    return fallback;
+                }
+                throw err;
+            })
+        ) as any;
     }
 }
