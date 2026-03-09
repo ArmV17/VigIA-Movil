@@ -18,7 +18,9 @@ import {
   peopleCircleOutline
 } from 'ionicons/icons'; 
 
-// Importación de componentes reutilizables
+// Importa tu cliente de Supabase
+import { supabase } from '../../supabase'; 
+
 import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
 import { LogoUtcComponent } from '../../components/logo-utc/logo-utc.component';
 
@@ -28,114 +30,95 @@ import { LogoUtcComponent } from '../../components/logo-utc/logo-utc.component';
   styleUrls: ['./calendario.page.scss'],
   standalone: true,
   imports: [
-    IonContent, 
-    IonIcon, 
-    IonButton, 
-    IonFooter, 
-    IonTabBar, 
-    IonTabButton, 
-    IonLabel, 
-    CommonModule, 
-    FormsModule, 
-    CustomNavbarComponent,
-    LogoUtcComponent
+    IonContent, IonIcon, IonButton, IonFooter, IonTabBar, IonTabButton, IonLabel, 
+    CommonModule, FormsModule, CustomNavbarComponent, LogoUtcComponent
   ]
 })
 export class CalendarioPage implements OnInit {
-  // Variables de estado del calendario
-  fechaActual = new Date(); 
+  // Variables de control de fecha
+  fechaActual = new Date(); // La que cambia al navegar meses
+  readonly FECHA_REAL = new Date(); // Constante para saber qué día es hoy
+  
   diasMes: number[] = [];
   rellenoInicial: number[] = [];
   diaSeleccionado: number = this.fechaActual.getDate();
   nombreMes: string = "";
   anio: number = this.fechaActual.getFullYear();
 
-  // Sistema de Eventos (Persistencia Local)
-  eventosGuardados: { [key: string]: string } = {};
-  nuevoEvento: string = "";
+  // Datos de Supabase
+  eventosDB: any[] = [];
+  coloresCeldas: { [key: string]: string } = {};
 
   constructor(private router: Router) {
-    // Registro de iconos para que se vean en el celular
     addIcons({ 
-      'chevron-back': chevronBack, 
-      'chevron-forward': chevronForward,
-      home, 
-      'help-circle': helpCircle, 
-      map, 
-      calendar, 
-      'document-text': documentText, 
-      'ellipsis-horizontal': ellipsisHorizontal,
+      'chevron-back': chevronBack, 'chevron-forward': chevronForward,
+      home, 'help-circle': helpCircle, map, calendar, 
+      'document-text': documentText, 'ellipsis-horizontal': ellipsisHorizontal,
       'people-circle-outline': peopleCircleOutline
     });
   }
 
-  ngOnInit() {
-    this.cargarEventos(); 
+  async ngOnInit() {
+    await this.cargarEventosDesdeSupabase();
     this.generarCalendario();
   }
 
-  // --- LÓGICA DEL CALENDARIO ---
+  /**
+   * Verifica si el día que se está renderizando es HOY
+   */
+  esHoy(dia: number): boolean {
+    return dia === this.FECHA_REAL.getDate() && 
+           this.fechaActual.getMonth() === this.FECHA_REAL.getMonth() && 
+           this.fechaActual.getFullYear() === this.FECHA_REAL.getFullYear();
+  }
+
+  async cargarEventosDesdeSupabase() {
+    try {
+      const { data, error } = await supabase.from('eventos_utc').select('*');
+      if (error) throw error;
+      if (data) {
+        this.eventosDB = data;
+        this.coloresCeldas = {};
+        data.forEach(ev => {
+          const f = new Date(ev.fecha + 'T00:00:00');
+          const clave = `${f.getFullYear()}-${f.getMonth() + 1}-${f.getDate()}`;
+          this.coloresCeldas[clave] = ev.color_hex;
+        });
+      }
+    } catch (err) {
+      console.error('Error en Supabase:', err);
+    }
+  }
+
   generarCalendario() {
     const mes = this.fechaActual.getMonth();
     const anio = this.fechaActual.getFullYear();
-
-    // Configuración del nombre del mes en español
     this.nombreMes = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(this.fechaActual);
     this.anio = anio;
 
-    // Cálculo de días del mes actual
     const numDias = new Date(anio, mes + 1, 0).getDate();
     this.diasMes = Array.from({ length: numDias }, (_, i) => i + 1);
 
-    // Cálculo del desplazamiento inicial (relleno del mes anterior)
     let primerDiaSemana = new Date(anio, mes, 1).getDay();
     const desplazamiento = primerDiaSemana === 0 ? 6 : primerDiaSemana - 1;
-
     const diasMesAnterior = new Date(anio, mes, 0).getDate();
-    this.rellenoInicial = Array.from(
-      { length: desplazamiento }, 
-      (_, i) => diasMesAnterior - (desplazamiento - 1) + i
-    );
+    this.rellenoInicial = Array.from({ length: desplazamiento }, (_, i) => diasMesAnterior - (desplazamiento - 1) + i);
   }
 
-  mesSiguiente() {
-    this.fechaActual.setMonth(this.fechaActual.getMonth() + 1);
-    this.generarCalendario();
-  }
-
-  mesAnterior() {
-    this.fechaActual.setMonth(this.fechaActual.getMonth() - 1);
-    this.generarCalendario();
-  }
-
-  seleccionarDia(dia: number) {
-    this.diaSeleccionado = dia;
-  }
-
-  // --- SISTEMA DE PERSISTENCIA (LocalStorage) ---
-  
-  // Genera una clave única por fecha para guardar los eventos
   getClaveFecha(dia: number): string {
     return `${this.anio}-${this.fechaActual.getMonth() + 1}-${dia}`;
   }
 
-  guardarEvento() {
-    if (this.nuevoEvento.trim().length > 0) {
-      const clave = this.getClaveFecha(this.diaSeleccionado);
-      this.eventosGuardados[clave] = this.nuevoEvento;
-      localStorage.setItem('eventosVigIA', JSON.stringify(this.eventosGuardados));
-      this.nuevoEvento = ""; 
-    }
+  getEventoDelDia() {
+    const claveBusqueda = this.getClaveFecha(this.diaSeleccionado);
+    return this.eventosDB.find(ev => {
+      const f = new Date(ev.fecha + 'T00:00:00');
+      const claveEv = `${f.getFullYear()}-${f.getMonth() + 1}-${f.getDate()}`;
+      return claveEv === claveBusqueda;
+    });
   }
 
-  cargarEventos() {
-    const datos = localStorage.getItem('eventosVigIA');
-    if (datos) {
-      this.eventosGuardados = JSON.parse(datos);
-    }
-  }
-
-  navegar(ruta: string) {
-    this.router.navigate([`/${ruta}`]);
-  }
+  mesSiguiente() { this.fechaActual.setMonth(this.fechaActual.getMonth() + 1); this.generarCalendario(); }
+  mesAnterior() { this.fechaActual.setMonth(this.fechaActual.getMonth() - 1); this.generarCalendario(); }
+  seleccionarDia(dia: number) { this.diaSeleccionado = dia; }
 }

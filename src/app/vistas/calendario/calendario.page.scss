@@ -1,75 +1,118 @@
 .calendario-page {
-  /* Mantenemos tu azul profundo original de fondo */
+  /* Fondo profundo original */
   --background: #0d1b2a; 
+
+  /* --- LOGO FIJO --- */
+  /* Forzamos que el logo se quede arriba sin importar el scroll */
+  app-logo-utc {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Asegura que esté por encima de todo */
+    background: #0d1b2a; /* Fondo sólido para que no se transparente el contenido al subir */
+  }
 
   .main-container {
     display: flex;
-    flex-direction: column; /* Cambio a columna para que quepa en el celular */
+    flex-direction: column;
+    /* El padding-top de 90px deja el espacio exacto para el logo fijo */
     padding: calc(90px + var(--ion-safe-area-top, 0px)) 16px calc(100px + var(--ion-safe-area-bottom, 0px));
     gap: 15px;
     height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS/OnePlus */
   }
 
-  /* Tarjeta del día seleccionado con tus estilos */
+  /* Tarjeta del día seleccionado */
   .side-card {
     width: 100%;
-    background: rgba(27, 38, 59, 0.5); /* Tu azul de tarjeta con transparencia */
+    background: rgba(27, 38, 59, 0.5); 
     border-radius: 20px;
     padding: 20px;
     text-align: center;
     color: white;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
 
-    .big-day { 
-      font-size: 4rem; /* Un poco más ajustado para móvil */
-      margin: 0; 
-      font-family: 'Serif', serif; 
-      color: white;
-    }
-    
-    .month-year { 
-      font-size: 0.9rem; 
-      letter-spacing: 2px; 
-      opacity: 0.8; 
-      text-transform: uppercase;
-    }
-
-    .event-input-container {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin: 15px 0;
-
-      input {
-        background: #0d1b2a; /* Fondo oscuro original */
-        border: 1px solid #3a86ff; /* Borde azul vibrante */
-        border-radius: 8px;
-        padding: 10px;
+    .date-header {
+      /* Estilo para el badge de HOY */
+      .today-badge {
+        background: #3a86ff;
         color: white;
-        font-size: 0.9rem;
-        outline: none;
-      }
-
-      button {
-        background: #3a86ff; /* Tu azul de acción */
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 8px;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.75rem;
         font-weight: bold;
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        box-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
+      }
+
+      .big-day { 
+        font-size: 4rem; 
+        margin: 0; 
+        font-family: 'Serif', serif; 
+        color: white;
+        line-height: 1;
+      }
+      .month-year { 
+        font-size: 0.9rem; 
+        letter-spacing: 2px; 
+        opacity: 0.8; 
+        text-transform: uppercase;
+        margin-top: 5px;
+      }
+      .anio-label {
+        font-size: 0.8rem;
+        opacity: 0.5;
       }
     }
 
-    hr { border: 0.5px solid rgba(255,255,255,0.1); margin: 15px 0; }
-    .event-label { font-size: 0.7rem; color: #3a86ff; font-weight: bold; }
-    .no-events { font-size: 0.8rem; opacity: 0.5; margin-top: 5px; font-style: italic; }
+    /* Sección de información de Supabase */
+    .event-display {
+      margin-top: 15px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+      .event-label { 
+        font-size: 0.65rem; 
+        color: #3a86ff; 
+        font-weight: bold; 
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .info-box {
+        border-left: 4px solid transparent; 
+        padding-left: 10px;
+        text-align: left;
+
+        .event-text { 
+          font-size: 1rem; 
+          font-weight: 500;
+          margin: 0;
+        }
+        
+        .tag {
+          font-size: 0.7rem;
+          color: #3a86ff;
+          background: rgba(58, 134, 255, 0.1);
+          padding: 2px 6px;
+          border-radius: 4px;
+          margin-top: 4px;
+          display: inline-block;
+        }
+      }
+    }
   }
 
-  /* Caja del Calendario con tus colores */
+  /* Caja del Calendario */
   .calendar-box {
     width: 100%;
-    background: #1b263b; /* Tu fondo de calendario original */
+    background: #1b263b; 
     border-radius: 20px;
     padding: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -79,9 +122,20 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
+      
+      ion-button {
+        --color: white;
+      }
+
       .month-title { 
         text-align: center; 
-        h2 { margin: 0; letter-spacing: 3px; font-size: 1.2rem; color: white; } 
+        h2 { 
+          margin: 0; 
+          letter-spacing: 3px; 
+          font-size: 1.2rem; 
+          color: white; 
+          text-transform: uppercase;
+        } 
       }
     }
 
@@ -100,24 +154,47 @@
 
       .day-cell {
         aspect-ratio: 1 / 1;
-        background: #e0e1dd; /* Tu color crema original para los días */
+        background: #e0e1dd; 
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #1b263b; /* Texto oscuro sobre crema */
+        color: #1b263b; 
         font-weight: bold;
         font-size: 0.9rem;
+        transition: all 0.2s ease;
+        position: relative; /* Para posicionar el punto de HOY */
 
         &.muted {
-          background: rgba(119, 141, 169, 0.3); /* Tu gris azulado */
-          color: rgba(255, 255, 255, 0.3);
+          background: rgba(119, 141, 169, 0.1); 
+          color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- ESTILO PARA HOY --- */
+        &.is-today {
+          border: 2px solid #3a86ff;
+          font-weight: 900;
+          
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            width: 4px;
+            height: 4px;
+            background: #3a86ff;
+            border-radius: 50%;
+          }
         }
 
         &.active { 
-          background: #3a86ff; /* Tu azul activo */
-          color: white;
-          box-shadow: 0 0 10px rgba(58, 134, 255, 0.4);
+          border: 2px solid white;
+          transform: scale(1.1);
+          z-index: 10;
+        }
+
+        &[style*="background"] {
+          color: white !important; 
+          text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
         }
       }
     }
