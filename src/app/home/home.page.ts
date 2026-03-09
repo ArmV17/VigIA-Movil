@@ -5,7 +5,8 @@ import {
   IonLabel 
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
-import { addIcons } from 'ionicons'; 
+import { RouterModule } from '@angular/router'; // 👈 IMPORTANTE
+import { addIcons } from 'ionicons';
 import { 
   home, 
   helpCircle, 
@@ -13,7 +14,7 @@ import {
   calendar, 
   documentText, 
   ellipsisHorizontal 
-} from 'ionicons/icons'; 
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -21,10 +22,10 @@ import {
   styleUrls: ['home.page.scss'],
   standalone: true,
   imports: [
-    IonContent, 
-    IonIcon, 
-    IonLabel, 
-    CommonModule
+    IonContent,
+    IonIcon,
+    CommonModule,
+    RouterModule // 👈 NECESARIO PARA routerLink
   ],
 })
 export class HomePage {
@@ -42,7 +43,6 @@ export class HomePage {
 
   seleccionar(tab: string) {
     console.log('Navegando a la sección:', tab);
-
   }
 
 }

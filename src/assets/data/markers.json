@@ -1,0 +1,29 @@
+[
+    {
+        "nombre": "OXXO -campus UTC","imagen": "mapa_oxxoauto.webp",
+        "informacion": "<p>Un OXXO es una tienda de conveniencia que ofrece productos básicos, alimentos, bebidas y servicios rápidos, abierta las 24 horas para satisfacer necesidades diarias de forma rápida y accesible.</p>",
+        "color": "#808080",
+        "door_coords": [ -100.93598457308771, 25.557745977609486 ],
+        "polygons": [
+            [ -100.93597501516342, 25.55780669670112 ],
+            [ -100.93591399490833, 25.557756486750762 ],
+            [ -100.93595087528229, 25.557719585448538 ],
+            [ -100.93601256608963, 25.55776979541436 ]
+        ]
+    },
+
+    {
+        "nombre": "marcador Lasalle","imagen": "mapa_salle.webp",
+        "informacion": "",
+        "color": "#808080",
+        "door_coords": [ -100.93645311892033, 25.55663552900691 ],
+        "polygons": [ null, null, null, null ]
+    },
+    {
+        "nombre": "marcador banorte","imagen": "mapa_banorte.webp",
+        "informacion": "",
+        "color": "#808080",
+        "door_coords": [ -100.93448303639889, 25.55614612754499 ],
+        "polygons": [ null, null, null, null ]
+    }
+]

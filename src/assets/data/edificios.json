@@ -1,0 +1,246 @@
+[
+    {
+        "nombre": "Caseta 1",
+        "informacion": "<p>Un OXXO es una tienda de conveniencia que ofrece productos básicos, alimentos, bebidas y servicios rápidos, abierta las 24 horas para satisfacer necesidades diarias de forma rápida y accesible.</p>",
+        "color": "#808080",
+        "imagen": "mapa_caseta1.webp",
+        "door_coords": [ -100.9366971904134, 25.558123776346008 ],
+        "polygons": [
+            [ -100.9367149695754, 25.558196276805788 ],
+            [ -100.93666635453701, 25.55815574601543 ],
+            [ -100.93672402203083, 25.558094344866618 ],
+            [ -100.93677800148726, 25.558132455928188 ]
+        ]
+    },
+    {
+        "nombre": "Rectoria",
+        "imagen": "mapa_rectoria.webp",
+        "informacion": "",
+        "color": "#808080",
+        "door_coords": [ -100.93588971068348, 25.557542261572692 ],
+        "polygons": [
+            [ -100.935765132308, 25.557679659436616 ],
+            [ -100.93545131385326, 25.557449177198492 ],
+            [ -100.93568131327629, 25.557187237528737 ],
+            [ -100.93600451946259, 25.557412880742646 ]
+        ]
+    },
+    {
+        "nombre": "Estanquillo Doña Keka",
+        "informacion": "<p>Aquí puedes encontrar desde refrescos y papas fritas hasta dulces, galletas y emparedados, ideales para satisfacer un antojo o para un bocado rápido entre comidas. ¡Perfecto para quienes están en movimiento!</p>",
+        "imagen": "mapa_keka.jpg",
+        "color": "#808080",
+        "door_coords": [ -100.93671740826336, 25.556795070442305 ],
+        "polygons": [
+            [ -100.9367548674345, 25.556820642017826 ],
+            [ -100.9366824477911, 25.55676922176569 ],
+            [ -100.93672066926956, 25.556726270714663 ],
+            [ -100.93679308891296, 25.556775876152514 ]
+        ]
+    },
+    {
+        "nombre": "Caseta 2",
+        "imagen": "mapa_caseta2.webp",
+        "informacion": "",
+        "color": "#808080",
+        "door_coords": [ -100.93454123703098, 25.556138222602073 ],
+        "polygons": [
+            [ -100.93458496034145, 25.5561364483859 ],
+            [ -100.93454740941525, 25.556180609542864 ],
+            [ -100.9344930946827, 25.55614128796553 ],
+            [ -100.93452863395214, 25.556097731741744 ]
+        ]
+    },
+    {
+        "nombre": "Vinculacion","imagen": "mapa_vinculacion.webp",
+        "informacion": "",
+        "color": "#808080",
+        "door_coords": [ -100.93627301180582, 25.557742909301282 ],
+        "polygons": [
+            [ -100.93642964959145, 25.55812247446086 ],
+            [ -100.93612723052502, 25.557930104200565 ],
+            [ -100.93635454773903, 25.557648202569354 ],
+            [ -100.93665696680546, 25.557837548587912 ]
+        ]
+    },
+    {
+        "nombre": "Laboratorio 7-A","imagen": "mapa_lab7a.webp",
+        "informacion": "<h3 style=\"text-align: center;\">Laboratorios:</h3><p>&nbsp;</p><ul><li style=\"list-style-type: none;\"><ul style=\"list-style-type: square;\"><li>Taller de electricidad</li><li>Robótica</li><li>Plc</li><li>Control de Motores</li><li>Hidráulica</li><li>Neumática</li></ul></li></ul>",
+        "color": "#808080",
+        "door_coords": [ -100.93420448657321, 25.55577571860485 ],
+        "polygons": [
+            [ -100.93413434922695, 25.555720243805652 ],
+            [ -100.93450248241425, 25.5560075945061 ],
+            [ -100.9344032406807, 25.556163066071505 ],
+            [ -100.9340163320303, 25.555876925641428 ]
+        ]
+    },
+    {
+        "nombre": "Campo de SoftBol","imagen": "mapa_soft.webp",
+        "informacion": "",
+        "color": "#008000",
+        "door_coords": [ -100.93824994410912, 25.55851554472285 ],
+        "polygons": [
+            [ -100.93865185976028, 25.55884476758675 ],
+            [ -100.93815095722675, 25.558437041516612 ],
+            [ -100.93853987753391, 25.557924054816297 ],
+            [ -100.93912661075592, 25.55840800459221 ]
+        ]
+    },
+    {
+        "nombre": "Papeleria","imagen": "mapa_papeleria.webp",
+        "informacion": "<p>Papelería es un establecimiento práctico y accesible que ofrece una variedad de artículos esenciales para estudiantes y profesionales, como cuadernos, plumas, lápices, carpetas y materiales de oficina. Es el lugar ideal para encontrar rápidamente todo lo necesario para tareas y proyectos escolares o de oficina.</p>",
+        "color": "#808080",
+        "door_coords": [ -100.93686695622208, 25.556942187100688 ],
+        "polygons": [
+            [ -100.93688495457172, 25.55691803796428 ],
+            [ -100.93691445887089, 25.556938001098814 ],
+            [ -100.93688160181046, 25.556985791619496 ],
+            [ -100.93684740364552, 25.5569664334362 ]
+        ]
+    },
+    {
+        "nombre": "Laboratorio 4-E","imagen": "mapa_lab4e.webp",
+        "informacion": "<h3 class=\"MsoNormal\" style=\"text-align: left;\">Laboratorios:</h3><ul style=\"list-style-type: square;\"><li class=\"MsoNormal\">Lab. Multimedia</li><li class=\"MsoNormal\">Lab. de Cómputo</li><li class=\"MsoNormal\">Tratamientos de aguas</li></ul>",
+        "color": "#808080",
+        "door_coords": [ -100.93452711982599, 25.555052861623096 ],
+        "polygons": [
+            [ -100.9344682842493, 25.555013660626386 ],
+            [ -100.93467481434345, 25.55515219481437 ],
+            [ -100.93456953763962, 25.555293148649156 ],
+            [ -100.93436434864998, 25.55515037995707 ]
+        ]
+    },
+    {
+        "nombre": "Biblioteca","imagen": "mapa_biblioteca.webp",
+        "informacion": "<p>Biblioteca un lugar tranquilo y acogedor, diseñado para el estudio, la investigación y la consulta de recursos académicos. Ofrece una amplia colección de libros, revistas, y materiales digitales, además de espacios de lectura, computadoras, y áreas para trabajo en grupo, facilitando el aprendizaje y la búsqueda de conocimiento.</p><p>&nbsp;</p><h5 style=\"text-align: center;\">Servicios:</h5><ul style=\"list-style-type: square;\"><li>Papelería</li><li>Sala de Estudios</li><li>Equipos de cómputo</li></ul>",
+        "color": "#808080",
+        "door_coords": [ -100.93587389476774, 25.55643759574346 ],
+        "polygons": [
+            [ -100.93595758080482, 25.55649820642516 ],
+            [ -100.93576982617378, 25.55636390841765 ],
+            [ -100.93600049614906, 25.55611043564197 ],
+            [ -100.93619361519814, 25.55624654877434 ]
+        ]
+    },
+    {
+        "nombre": "Edificio 3","imagen": "mapa_edificio3.webp",
+        "informacion": "<p>Edificio 3</p>",
+        "color": "#808080",
+        "door_coords": [ -100.93544259667397, 25.55591564235695 ],
+        "polygons": [
+            [ -100.93570679426193, 25.556133423648518 ],
+            [ -100.93533866107464, 25.555832159423545 ],
+            [ -100.93551233410835, 25.55565430428453 ],
+            [ -100.9358898550272, 25.555962828337044 ]
+        ]
+    },
+    {
+        "nombre": "Domo Multiusos","imagen": "mapa_domomultiuso.webp",
+        "informacion": "<p>El Domo es un espacio versátil diseñado para albergar una variedad de actividades, desde competencias deportivas como baloncesto, voleibol y fútbol, hasta eventos sociales y culturales. Su estructura moderna y funcional lo convierte en el lugar ideal para encuentros comunitarios y torneos deportivos.</p>",
+        "color": "#008000",
+        "door_coords": [ -100.9347475904244, 25.555150502094335 ],
+        "polygons": [
+            [ -100.93482233583927, 25.555561141963523 ],
+            [ -100.934549421072, 25.55535182895207 ],
+            [ -100.93471303582191, 25.555125576904217 ],
+            [ -100.93496851623058, 25.555339729922906 ]
+        ]
+    },
+    {
+        "nombre": "Edificio 1","imagen": "mapa_edifcio1.webp",
+        "informacion": "<h4 class=\"MsoNormal\" style=\"text-align: center;\">Mecatrónica y Robótica</h4><h5 style=\"text-align: center;\">Áreas:</h5><ul style=\"list-style-type: square;\"><li>Sistemas de Manufactura Flexible</li><li>Automatización</li></ul>",
+        "color": "#808080",
+        "door_coords": [ -100.93372819915797, 25.555388026135404 ],
+        "polygons": [
+            [ -100.93400560319424, 25.555588969677387 ],
+            [ -100.9338366240263, 25.555771059558623 ],
+            [ -100.93343764543533, 25.555489757798384 ],
+            [ -100.93360394239426, 25.555300408069627 ]
+        ]
+    },
+    {
+        "nombre": "Campo de Futbol","imagen": "mapa_futbol.webp",
+        "informacion": "",
+        "color": "#008000",
+        "door_coords": [ -100.9376399588832, 25.55845498384079 ],
+        "polygons": [
+            [ -100.93778483569622, 25.558613077720054 ],
+            [ -100.93752466142178, 25.558332387568583 ],
+            [ -100.9377459436655, 25.558159980576235 ],
+            [ -100.93801282346249, 25.5584443007466 ]
+        ]
+    },
+    {
+        "nombre": "Cafeteria (1)","imagen": "mapa_cafateria1.webp",
+        "informacion": "<p>Un espacio acogedor y dinámico donde los estudiantes, profesores y personal pueden disfrutar de una variedad de alimentos y bebidas. Ofrece opciones como café, sándwiches, ensaladas y bocadillos, ideales para recargar energías entre clases o socializar con amigos en un ambiente relajado.</p>",
+        "color": "#808080",
+        "door_coords": [ -100.93402984158566, 25.554892983598435 ],
+        "polygons": [
+            [ -100.93391373753548, 25.554987647638725 ],
+            [ -100.93381650745869, 25.55490113929031 ],
+            [ -100.93403913080692, 25.554702714311162 ],
+            [ -100.93414038419724, 25.554795272345373 ]
+        ]
+    },
+    {
+        "nombre": "Laboratorio 7-B","imagen": "mapa_lab7b.webp",
+        "informacion": "<h4 class=\"MsoNormal\" style=\"text-align: left;\">Laboratorios:</h4><ul style=\"list-style-type: square;\"><li class=\"MsoNormal\" style=\"text-align: left;\">Absorción Tónica</li><li class=\"MsoNormal\" style=\"text-align: left;\">Micro Tecnología</li><li class=\"MsoNormal\" style=\"text-align: left;\">Bromatología</li><li class=\"MsoNormal\" style=\"text-align: left;\">Fisicoquímico</li></ul>",
+        "color": "#808080",
+        "door_coords": [ -100.93608717781115, 25.55689344700619 ],
+        "polygons": [
+            [ -100.93631699681282, 25.55703781672159 ],
+            [ -100.93619830906391, 25.557197521545035 ],
+            [ -100.93578189611435, 25.556921667625346 ],
+            [ -100.93589656054974, 25.556775876152514 ]
+        ]
+    },
+    {
+        "nombre": "Cafeteria (2)","imagen": "mapa_cafeteria2.webp",
+        "informacion": "<p>Un espacio acogedor y dinámico donde los estudiantes, profesores y personal pueden disfrutar de una variedad de alimentos y bebidas. Ofrece opciones como café, sándwiches, ensaladas y bocadillos, ideales para recargar energías entre clases o socializar con amigos en un ambiente relajado.</p>",
+        "color": "#808080",
+        "door_coords": [ -100.93584696697867, 25.556174391618853 ],
+        "polygons": [
+            [ -100.93587778508663, 25.55619452332867 ],
+            [ -100.93581475317478, 25.556147942387227 ],
+            [ -100.93590125441551, 25.556060224980797 ],
+            [ -100.93596160411835, 25.556103176270582 ]
+        ]
+    },
+    {
+        "nombre": "Centro de Idiomas / multicultural","imagen": "mapa_idiomas.webp",
+        "informacion": "<p>Dedicado al aprendizaje de nuevos idiomas y al intercambio cultural. Ofrece una amplia gama de cursos para mejorar las habilidades lingüísticas en diferentes lenguas y promueve actividades que celebran la diversidad cultural, facilitando la comprensión y la integración entre personas de distintas culturas.</p>",
+        "color": "#808080",
+        "door_coords": [ -100.93684641370396, 25.55726892122472 ],
+        "polygons": [
+            [ -100.93707270920277, 25.55741227580161 ],
+            [ -100.93697749078274, 25.557575004827 ],
+            [ -100.93656107783318, 25.557305806133783 ],
+            [ -100.93665227293968, 25.55715457064754 ]
+        ]
+    },
+    {
+        "nombre": "Edificio 2","imagen": "mapa_edificio2.webp",
+        "informacion": "<h5 class=\"MsoNormal\" style=\"text-align: center;\">Tecnologías de la información y Mecánica</h5><h5 class=\"MsoNormal\" style=\"text-align: center;\">Áreas :</h5><ul style=\"list-style-type: square;\"><li>Entornos Virtuales y Negocios Digitales</li><li>Desarrollo y Gestión de Software</li><li>Redes Inteligentes y Ciberseguridad</li><li>Metal Mecánica</li></ul><h5 style=\"text-align: center;\">Laboratorios:</h5><ul style=\"list-style-type: square;\"><li>Laboratorio Cisco</li><li>Laboratorio informática</li><li>Laboratorio multimedia</li></ul>",
+        "color": "#808080",
+        "door_coords": [ -100.93455971031928, 25.55479156341552 ],
+        "polygons": [
+            [ -100.93483574688435, 25.554979783245997 ],
+            [ -100.93446224927902, 25.554729937269826 ],
+            [ -100.93460574746132, 25.55454966067292 ],
+            [ -100.93498528003693, 25.5548043466586 ]
+        ]
+    },
+    {
+        "nombre": "Edificio 4","imagen": "mapa_edificio4.webp",
+        "informacion": "<h5 class=\"MsoNormal\" style=\"text-align: left;\">Carreras</h5><p class=\"MsoNormal\" style=\"text-align: left;\">Desarrollo de Negocios, Logística, Química, Biotecnología y Nanotecnología</p><p>&nbsp;</p><h5 style=\"text-align: center;\">Áreas:</h5><ul style=\"list-style-type: square;\"><li>Mercadotecnia</li><li>Tecnología ambiental</li><li>Materiales</li><li>Cadena de Suministros</li></ul><h5 style=\"text-align: center;\">&nbsp;</h5><h5 style=\"text-align: center;\">laboratorios:</h5><ul style=\"list-style-type: square;\"><li>Sala de Autoacceso</li><li>Informática l</li><li>informática ll</li><li>Audio y Video</li></ul>",
+        "color": "#808080",
+        "door_coords": [ -100.93649946067605, 25.556475595174263 ],
+        "polygons": [
+            [ -100.93677833676338, 25.55666214658163 ],
+            [ -100.93637265264988, 25.556386291429362 ],
+            [ -100.93653090298176, 25.55620117774741 ],
+            [ -100.93693658709526, 25.556480058054575 ]
+        ]
+    }
+]
