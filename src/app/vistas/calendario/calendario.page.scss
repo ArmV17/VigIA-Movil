@@ -3,25 +3,23 @@
   --background: #0d1b2a; 
 
   /* --- LOGO FIJO --- */
-  /* Forzamos que el logo se quede arriba sin importar el scroll */
   app-logo-utc {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Asegura que esté por encima de todo */
-    background: #0d1b2a; /* Fondo sólido para que no se transparente el contenido al subir */
+    z-index: 1000; 
+    background: #0d1b2a; 
   }
 
   .main-container {
     display: flex;
     flex-direction: column;
-    /* El padding-top de 90px deja el espacio exacto para el logo fijo */
     padding: calc(90px + var(--ion-safe-area-top, 0px)) 16px calc(100px + var(--ion-safe-area-bottom, 0px));
     gap: 15px;
     height: 100%;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS/OnePlus */
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Tarjeta del día seleccionado */
@@ -37,7 +35,6 @@
     position: relative;
 
     .date-header {
-      /* Estilo para el badge de HOY */
       .today-badge {
         background: #3a86ff;
         color: white;
@@ -48,63 +45,21 @@
         position: absolute;
         top: 15px;
         right: 20px;
-        box-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
       }
-
-      .big-day { 
-        font-size: 4rem; 
-        margin: 0; 
-        font-family: 'Serif', serif; 
-        color: white;
-        line-height: 1;
-      }
-      .month-year { 
-        font-size: 0.9rem; 
-        letter-spacing: 2px; 
-        opacity: 0.8; 
-        text-transform: uppercase;
-        margin-top: 5px;
-      }
-      .anio-label {
-        font-size: 0.8rem;
-        opacity: 0.5;
-      }
+      .big-day { font-size: 4rem; margin: 0; font-family: 'Serif', serif; line-height: 1; }
+      .month-year { font-size: 0.9rem; letter-spacing: 2px; opacity: 0.8; text-transform: uppercase; }
     }
 
-    /* Sección de información de Supabase */
     .event-display {
       margin-top: 15px;
       padding-top: 10px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-      .event-label { 
-        font-size: 0.65rem; 
-        color: #3a86ff; 
-        font-weight: bold; 
-        display: block;
-        margin-bottom: 5px;
-      }
-
+      .event-label { font-size: 0.65rem; color: #3a86ff; font-weight: bold; display: block; }
       .info-box {
         border-left: 4px solid transparent; 
         padding-left: 10px;
         text-align: left;
-
-        .event-text { 
-          font-size: 1rem; 
-          font-weight: 500;
-          margin: 0;
-        }
-        
-        .tag {
-          font-size: 0.7rem;
-          color: #3a86ff;
-          background: rgba(58, 134, 255, 0.1);
-          padding: 2px 6px;
-          border-radius: 4px;
-          margin-top: 4px;
-          display: inline-block;
-        }
+        .event-text { font-size: 1rem; font-weight: 500; }
       }
     }
   }
@@ -123,20 +78,24 @@
       align-items: center;
       margin-bottom: 15px;
       
+      /* --- FLECHAS BLANCAS --- */
       ion-button {
-        --color: white;
+        --color: #ffffff !important; /* Fuerza el color blanco */
+        color: #ffffff !important;
+        font-size: 1.5rem;
+        
+        ion-icon {
+          color: #ffffff !important;
+        }
       }
 
-      .month-title { 
-        text-align: center; 
-        h2 { 
-          margin: 0; 
-          letter-spacing: 3px; 
-          font-size: 1.2rem; 
-          color: white; 
-          text-transform: uppercase;
-        } 
-      }
+      .month-title h2 { 
+        margin: 0; 
+        letter-spacing: 3px; 
+        font-size: 1.2rem; 
+        color: white; 
+        text-transform: uppercase;
+      } 
     }
 
     .grid-calendar {
@@ -144,13 +103,7 @@
       grid-template-columns: repeat(7, 1fr);
       gap: 8px;
 
-      .day-name { 
-        text-align: center; 
-        font-size: 0.7rem; 
-        color: white;
-        opacity: 0.7; 
-        padding-bottom: 5px; 
-      }
+      .day-name { text-align: center; font-size: 0.7rem; color: white; opacity: 0.7; }
 
       .day-cell {
         aspect-ratio: 1 / 1;
@@ -162,19 +115,12 @@
         color: #1b263b; 
         font-weight: bold;
         font-size: 0.9rem;
-        transition: all 0.2s ease;
-        position: relative; /* Para posicionar el punto de HOY */
+        position: relative;
 
-        &.muted {
-          background: rgba(119, 141, 169, 0.1); 
-          color: rgba(255, 255, 255, 0.1);
-        }
+        &.muted { background: rgba(119, 141, 169, 0.1); color: rgba(255, 255, 255, 0.1); }
 
-        /* --- ESTILO PARA HOY --- */
         &.is-today {
           border: 2px solid #3a86ff;
-          font-weight: 900;
-          
           &::after {
             content: '';
             position: absolute;
@@ -186,11 +132,7 @@
           }
         }
 
-        &.active { 
-          border: 2px solid white;
-          transform: scale(1.1);
-          z-index: 10;
-        }
+        &.active { border: 2px solid white; transform: scale(1.1); z-index: 10; }
 
         &[style*="background"] {
           color: white !important; 

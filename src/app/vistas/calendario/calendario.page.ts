@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Geolocation } from '@capacitor/geolocation';
 import { 
   IonContent, IonIcon, IonButton, IonFooter, IonTabBar, IonTabButton, IonLabel 
 } from '@ionic/angular/standalone';
@@ -35,9 +36,8 @@ import { LogoUtcComponent } from '../../components/logo-utc/logo-utc.component';
   ]
 })
 export class CalendarioPage implements OnInit {
-  // Variables de control de fecha
-  fechaActual = new Date(); // La que cambia al navegar meses
-  readonly FECHA_REAL = new Date(); // Constante para saber qué día es hoy
+  fechaActual = new Date();
+  readonly FECHA_REAL = new Date();
   
   diasMes: number[] = [];
   rellenoInicial: number[] = [];
@@ -117,6 +117,24 @@ export class CalendarioPage implements OnInit {
       return claveEv === claveBusqueda;
     });
   }
+
+  async solicitarGPS() {
+  const status = await Geolocation.checkPermissions();
+
+  if (status.location !== 'granted') {
+    const request = await Geolocation.requestPermissions();
+    if (request.location === 'granted') {
+      this.obtenerUbicacion();
+    }
+  } else {
+    this.obtenerUbicacion();
+  }
+}
+
+async obtenerUbicacion() {
+  const coordinates = await Geolocation.getCurrentPosition();
+  console.log('Mi ubicación es:', coordinates);
+}
 
   mesSiguiente() { this.fechaActual.setMonth(this.fechaActual.getMonth() + 1); this.generarCalendario(); }
   mesAnterior() { this.fechaActual.setMonth(this.fechaActual.getMonth() - 1); this.generarCalendario(); }
