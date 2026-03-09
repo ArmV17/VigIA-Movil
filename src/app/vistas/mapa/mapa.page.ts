@@ -2,8 +2,9 @@ import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment'; // Cambiado a environment general
 import mapboxgl from 'mapbox-gl';
+import { Geolocation } from '@capacitor/geolocation'; // Importante para el GPS en móvil
 
 // Componentes globales de VigIA
 import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
@@ -28,8 +29,7 @@ export class MapaPage implements AfterViewInit, OnDestroy {
   markerA: mapboxgl.Marker | null = null;
   markerB: mapboxgl.Marker | null = null;
   
-  // Tu Token Personal
-  private readonly MAPBOX_TOKEN = 'pk.eyJ1Ijoic2FsdmFoZHotMTEiLCJhIjoiY2x3czBoYTJiMDI1OTJqb2VmZzVueG1ocCJ9.dDJweS7MAR5N2U3SF64_Xw';
+  // El centro de la UTC
   readonly CENTER_COORDS: [number, number] = [-100.93655, 25.55701];
 
   // Variables para el Panel de Información
@@ -41,22 +41,20 @@ export class MapaPage implements AfterViewInit, OnDestroy {
   constructor() {}
 
   ngAfterViewInit() {
-    // Timeout para asegurar que el div #map esté listo en el DOM
     setTimeout(() => {
       this.initMap();
     }, 600);
   }
 
   ngOnDestroy() {
-    // Limpieza de memoria al salir de la vista
     if (this.map) {
       this.map.remove();
     }
   }
 
   initMap() {
-    // 🔥 SOLUCIÓN AL ERROR: Acceso por corchetes para evitar el error de "accessToken is immutable"
-    (mapboxgl as any)['accessToken'] = this.MAPBOX_TOKEN; 
+    // Usamos el token desde el environment oculto
+    (mapboxgl as any)['accessToken'] = environment.mapboxToken; 
 
     this.map = new mapboxgl.Map({
       container: 'map', 
@@ -78,7 +76,6 @@ export class MapaPage implements AfterViewInit, OnDestroy {
 
   async cargarDatosYCapas() {
     try {
-      // Carga de archivos JSON desde la carpeta assets
       const [resEdificios, resMarkers] = await Promise.all([
         fetch('assets/data/edificios.json'),
         fetch('assets/data/markers.json')
@@ -93,16 +90,13 @@ export class MapaPage implements AfterViewInit, OnDestroy {
       const features: any[] = [];
 
       this.todosLosDestinos.forEach(lugar => {
-        // Llenar selects de ruta
         if (lugar.door_coords) {
           selectOrigen.add(new Option(lugar.nombre, lugar.nombre));
           selectDestino.add(new Option(lugar.nombre, lugar.nombre));
         }
 
-        // Crear polígonos de edificios en el mapa
         if (lugar.polygons && lugar.polygons[0]) {
           const coords = [...lugar.polygons];
-          // Cerrar el polígono si el último punto no es igual al primero
           if (coords[0][0] !== coords[coords.length - 1][0]) coords.push(coords[0]);
           
           features.push({
@@ -137,14 +131,12 @@ export class MapaPage implements AfterViewInit, OnDestroy {
     const btn = document.getElementById('btnResetRuta');
 
     if (sO && sD) {
-      const update = () => this.calcularRuta(sO.value, sD.value);
-      sO.onchange = update;
-      sD.onchange = update;
+      sO.onchange = () => this.calcularRuta(sO.value, sD.value);
+      sD.onchange = () => this.calcularRuta(sO.value, sD.value);
     }
 
     if (btn) {
       btn.onclick = () => {
-        // Limpiar ruta y marcadores
         if (this.map.getLayer('ruta')) { 
           this.map.removeLayer('ruta'); 
           this.map.removeSource('ruta'); 
@@ -164,9 +156,16 @@ export class MapaPage implements AfterViewInit, OnDestroy {
     if (!dObj) return;
 
     if (origen === "GPS") {
-      navigator.geolocation.getCurrentPosition(pos => {
-        this.ejecutarPeticionRuta([pos.coords.longitude, pos.coords.latitude], dObj.door_coords);
-      }, () => alert("⚠️ Activa tu GPS en los ajustes del celular"));
+      try {
+        // Pedir permiso de GPS nativo (Mejor para Android)
+        const coordinates = await Geolocation.getCurrentPosition();
+        this.ejecutarPeticionRuta(
+          [coordinates.coords.longitude, coordinates.coords.latitude], 
+          dObj.door_coords
+        );
+      } catch (e) {
+        alert("⚠️ Por favor, activa el GPS en tu celular para trazar la ruta.");
+      }
     } else {
       const oObj = this.todosLosDestinos.find(o => o.nombre === origen);
       if (oObj) this.ejecutarPeticionRuta(oObj.door_coords, dObj.door_coords);
@@ -175,7 +174,8 @@ export class MapaPage implements AfterViewInit, OnDestroy {
 
   async ejecutarPeticionRuta(start: [number, number], end: [number, number]) {
     try {
-      const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${this.MAPBOX_TOKEN}`;
+      // Usamos el token desde el environment también en la URL de la API
+      const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${environment.mapboxToken}`;
       const res = await fetch(url);
       const json = await res.json();
       
@@ -195,7 +195,6 @@ export class MapaPage implements AfterViewInit, OnDestroy {
         });
       }
 
-      // Actualizar marcadores de inicio y fin
       if (this.markerA) this.markerA.remove();
       if (this.markerB) this.markerB.remove();
       this.markerA = new mapboxgl.Marker({ color: '#00b4d8' }).setLngLat(start).addTo(this.map);
