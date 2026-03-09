@@ -1,19 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonIcon, IonButton } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import { 
+  IonContent, IonIcon, IonButton, IonFooter, IonTabBar, IonTabButton, IonLabel 
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons'; 
-import { chevronBack, chevronForward } from 'ionicons/icons'; 
+import { 
+  chevronBack, chevronForward, home, helpCircle, map, calendar, 
+  documentText, ellipsisHorizontal 
+} from 'ionicons/icons'; 
 
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.page.html',
   styleUrls: ['./calendario.page.scss'],
   standalone: true,
-  imports: [IonContent, IonIcon, IonButton, CommonModule, FormsModule]
+  imports: [
+    IonContent, IonIcon, IonButton, IonFooter, IonTabBar, 
+    IonTabButton, IonLabel, CommonModule, FormsModule
+  ]
 })
 export class CalendarioPage implements OnInit {
-  // Variables dinámicas
+  // Variables de estado
   fechaActual = new Date(); 
   diasMes: number[] = [];
   rellenoInicial: number[] = [];
@@ -21,14 +30,30 @@ export class CalendarioPage implements OnInit {
   nombreMes: string = "";
   anio: number = this.fechaActual.getFullYear();
 
-  constructor() {
-    addIcons({ 'chevron-back': chevronBack, 'chevron-forward': chevronForward });
+  // Sistema de Eventos para VigIA
+  eventosGuardados: { [key: string]: string } = {};
+  nuevoEvento: string = "";
+
+  constructor(private router: Router) {
+    // Registramos todos los iconos necesarios
+    addIcons({ 
+      'chevron-back': chevronBack, 
+      'chevron-forward': chevronForward,
+      home, 
+      'help-circle': helpCircle, 
+      map, 
+      calendar, 
+      'document-text': documentText, 
+      'ellipsis-horizontal': ellipsisHorizontal 
+    });
   }
 
   ngOnInit() {
+    this.cargarEventos(); 
     this.generarCalendario();
   }
 
+  // --- LÓGICA DEL CALENDARIO ---
   generarCalendario() {
     const mes = this.fechaActual.getMonth();
     const anio = this.fechaActual.getFullYear();
@@ -49,7 +74,6 @@ export class CalendarioPage implements OnInit {
     );
   }
 
-  // Funciones para que las flechas funcionen
   mesSiguiente() {
     this.fechaActual.setMonth(this.fechaActual.getMonth() + 1);
     this.generarCalendario();
@@ -62,5 +86,30 @@ export class CalendarioPage implements OnInit {
 
   seleccionarDia(dia: number) {
     this.diaSeleccionado = dia;
+  }
+
+  // --- SISTEMA DE PERSISTENCIA (LocalStorage) ---
+  getClaveFecha(dia: number): string {
+    return `${this.anio}-${this.fechaActual.getMonth() + 1}-${dia}`;
+  }
+
+  guardarEvento() {
+    if (this.nuevoEvento.trim().length > 0) {
+      const clave = this.getClaveFecha(this.diaSeleccionado);
+      this.eventosGuardados[clave] = this.nuevoEvento;
+      localStorage.setItem('eventosVigIA', JSON.stringify(this.eventosGuardados));
+      this.nuevoEvento = ""; 
+    }
+  }
+
+  cargarEventos() {
+    const datos = localStorage.getItem('eventosVigIA');
+    if (datos) {
+      this.eventosGuardados = JSON.parse(datos);
+    }
+  }
+
+  navegar(ruta: string) {
+    this.router.navigate([`/${ruta}`]);
   }
 }
