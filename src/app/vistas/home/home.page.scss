@@ -1,0 +1,68 @@
+.vigi-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  --background: transparent;
+}
+
+// Logo Central VigIA
+.center-orb-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  &:active {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+}
+
+.orb-static-image {
+  width: 160px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0 15px rgba(100, 180, 255, 0.6)) drop-shadow(0 0 30px rgba(100, 180, 255, 0.3));
+  transition: filter 0.3s ease;
+}
+
+.center-orb-container:hover .orb-static-image {
+  filter: drop-shadow(0 0 25px rgba(100, 180, 255, 0.9));
+}
+
+// Adaptabilidad para pantallas pequeñas
+@media (max-width: 360px) {
+  .custom-navbar {
+    padding: 4px;
+    gap: 2px;
+  }
+
+  .nav-button {
+    padding: 0 8px;
+    min-width: 40px;
+
+    ion-icon {
+      font-size: 20px;
+    }
+
+    .nav-text {
+      font-size: 12px;
+      margin-left: 4px;
+    }
+
+    &.active,
+    &:hover {
+      padding: 0 12px;
+    }
+  }
+}
