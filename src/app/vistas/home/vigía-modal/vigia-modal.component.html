@@ -10,8 +10,7 @@
         VigIA
       </h3>
       <div class="chat-panel-header-actions">
-        <button type="button" class="chat-header-btn speak_btn" id="speakBtn" title="Reproducir / Pausar voz"
-          (click)="toggleTTS()">
+        <button class="chat-header-btn" (click)="toggleTTS()" [class.active]="isSpeaking">
           <ion-icon [name]="isSpeaking ? 'pause-circle-outline' : 'play-circle-outline'"></ion-icon>
         </button>
         <button type="button" class="chat-header-btn" id="closeChatPanel" title="Cerrar chat" (click)="closeModal()">
@@ -57,6 +56,9 @@
         <textarea class="chat-textarea" id="txtQuestion" name="question" rows="1" maxlength="200"
           placeholder="Escribe tu pregunta..." [(ngModel)]="userMessage"
           (keydown.enter)="onEnterKey($event)"></textarea>
+        <button class="chat-input-btn chat-mic-btn" (click)="toggleMicrophone()" [class.recording]="isRecording">
+          <ion-icon [name]="isRecording ? 'square' : 'mic-outline'"></ion-icon>
+        </button>
         <button type="submit" id="chatForm_submit" class="chat-input-btn chat-send-btn" title="Enviar">
           <ion-icon name="send"></ion-icon>
         </button>
