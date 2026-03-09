@@ -7,22 +7,42 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons'; 
 import { 
-  chevronBack, chevronForward, home, helpCircle, map, calendar, 
-  documentText, ellipsisHorizontal 
+  chevronBack, 
+  chevronForward, 
+  home, 
+  helpCircle, 
+  map, 
+  calendar, 
+  documentText, 
+  ellipsisHorizontal,
+  peopleCircleOutline
 } from 'ionicons/icons'; 
-import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component'; // Verifica la ruta
+
+// Importación de componentes reutilizables
+import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
+import { LogoUtcComponent } from '../../components/logo-utc/logo-utc.component';
+
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.page.html',
   styleUrls: ['./calendario.page.scss'],
   standalone: true,
   imports: [
-    IonContent, IonIcon, IonButton, IonFooter, IonTabBar, 
-    IonTabButton, IonLabel, CommonModule, FormsModule, CustomNavbarComponent
+    IonContent, 
+    IonIcon, 
+    IonButton, 
+    IonFooter, 
+    IonTabBar, 
+    IonTabButton, 
+    IonLabel, 
+    CommonModule, 
+    FormsModule, 
+    CustomNavbarComponent,
+    LogoUtcComponent
   ]
 })
 export class CalendarioPage implements OnInit {
-  // Variables de estado
+  // Variables de estado del calendario
   fechaActual = new Date(); 
   diasMes: number[] = [];
   rellenoInicial: number[] = [];
@@ -30,12 +50,12 @@ export class CalendarioPage implements OnInit {
   nombreMes: string = "";
   anio: number = this.fechaActual.getFullYear();
 
-  // Sistema de Eventos para VigIA
+  // Sistema de Eventos (Persistencia Local)
   eventosGuardados: { [key: string]: string } = {};
   nuevoEvento: string = "";
 
   constructor(private router: Router) {
-    // Registramos todos los iconos necesarios
+    // Registro de iconos para que se vean en el celular
     addIcons({ 
       'chevron-back': chevronBack, 
       'chevron-forward': chevronForward,
@@ -44,7 +64,8 @@ export class CalendarioPage implements OnInit {
       map, 
       calendar, 
       'document-text': documentText, 
-      'ellipsis-horizontal': ellipsisHorizontal 
+      'ellipsis-horizontal': ellipsisHorizontal,
+      'people-circle-outline': peopleCircleOutline
     });
   }
 
@@ -58,12 +79,15 @@ export class CalendarioPage implements OnInit {
     const mes = this.fechaActual.getMonth();
     const anio = this.fechaActual.getFullYear();
 
-    this.nombreMes = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(this.fechaActual).toUpperCase();
+    // Configuración del nombre del mes en español
+    this.nombreMes = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(this.fechaActual);
     this.anio = anio;
 
+    // Cálculo de días del mes actual
     const numDias = new Date(anio, mes + 1, 0).getDate();
     this.diasMes = Array.from({ length: numDias }, (_, i) => i + 1);
 
+    // Cálculo del desplazamiento inicial (relleno del mes anterior)
     let primerDiaSemana = new Date(anio, mes, 1).getDay();
     const desplazamiento = primerDiaSemana === 0 ? 6 : primerDiaSemana - 1;
 
@@ -89,6 +113,8 @@ export class CalendarioPage implements OnInit {
   }
 
   // --- SISTEMA DE PERSISTENCIA (LocalStorage) ---
+  
+  // Genera una clave única por fecha para guardar los eventos
   getClaveFecha(dia: number): string {
     return `${this.anio}-${this.fechaActual.getMonth() + 1}-${dia}`;
   }

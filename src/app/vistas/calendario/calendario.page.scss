@@ -1,95 +1,125 @@
 .calendario-page {
-  --background: #0d1b2a; // El azul de tu Home
+  /* Mantenemos tu azul profundo original de fondo */
+  --background: #0d1b2a; 
 
   .main-container {
     display: flex;
-    padding: 40px;
-    gap: 20px;
+    flex-direction: column; /* Cambio a columna para que quepa en el celular */
+    padding: calc(90px + var(--ion-safe-area-top, 0px)) 16px calc(100px + var(--ion-safe-area-bottom, 0px));
+    gap: 15px;
     height: 100%;
-    align-items: flex-start;
   }
 
+  /* Tarjeta del día seleccionado con tus estilos */
   .side-card {
-    width: 200px;
-    background: rgba(27, 38, 59, 0.5);
+    width: 100%;
+    background: rgba(27, 38, 59, 0.5); /* Tu azul de tarjeta con transparencia */
     border-radius: 20px;
-    padding: 30px 20px;
+    padding: 20px;
     text-align: center;
     color: white;
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
-    .big-day { font-size: 5rem; margin: 0; font-family: 'Serif', serif; }
-    .month-year { font-size: 0.9rem; letter-spacing: 2px; opacity: 0.8; }
-    hr { border: 0.5px solid rgba(255,255,255,0.1); margin: 20px 0; }
+    .big-day { 
+      font-size: 4rem; /* Un poco más ajustado para móvil */
+      margin: 0; 
+      font-family: 'Serif', serif; 
+      color: white;
+    }
+    
+    .month-year { 
+      font-size: 0.9rem; 
+      letter-spacing: 2px; 
+      opacity: 0.8; 
+      text-transform: uppercase;
+    }
+
+    .event-input-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 15px 0;
+
+      input {
+        background: #0d1b2a; /* Fondo oscuro original */
+        border: 1px solid #3a86ff; /* Borde azul vibrante */
+        border-radius: 8px;
+        padding: 10px;
+        color: white;
+        font-size: 0.9rem;
+        outline: none;
+      }
+
+      button {
+        background: #3a86ff; /* Tu azul de acción */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 8px;
+        font-weight: bold;
+      }
+    }
+
+    hr { border: 0.5px solid rgba(255,255,255,0.1); margin: 15px 0; }
     .event-label { font-size: 0.7rem; color: #3a86ff; font-weight: bold; }
-    .no-events { font-size: 0.8rem; opacity: 0.5; margin-top: 10px; font-style: italic; }
+    .no-events { font-size: 0.8rem; opacity: 0.5; margin-top: 5px; font-style: italic; }
   }
 
+  /* Caja del Calendario con tus colores */
   .calendar-box {
-    flex: 1;
-    background: #1b263b;
+    width: 100%;
+    background: #1b263b; /* Tu fondo de calendario original */
     border-radius: 20px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 
     .calendar-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      .month-title { text-align: center; h2 { margin: 0; letter-spacing: 5px; } }
+      margin-bottom: 15px;
+      .month-title { 
+        text-align: center; 
+        h2 { margin: 0; letter-spacing: 3px; font-size: 1.2rem; color: white; } 
+      }
     }
 
     .grid-calendar {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 10px;
+      gap: 8px;
 
-      .day-name { text-align: center; font-size: 0.7rem; opacity: 0.7; padding-bottom: 10px; }
+      .day-name { 
+        text-align: center; 
+        font-size: 0.7rem; 
+        color: white;
+        opacity: 0.7; 
+        padding-bottom: 5px; 
+      }
 
       .day-cell {
-        aspect-ratio: 1 / 0.8;
-        background: #e0e1dd;
-        border-radius: 12px;
+        aspect-ratio: 1 / 1;
+        background: #e0e1dd; /* Tu color crema original para los días */
+        border-radius: 10px;
         display: flex;
-        align-items: flex-start;
-        padding: 10px;
-        color: #1b263b;
+        align-items: center;
+        justify-content: center;
+        color: #1b263b; /* Texto oscuro sobre crema */
         font-weight: bold;
-        cursor: pointer;
+        font-size: 0.9rem;
 
         &.muted {
-    background: rgba(119, 141, 169, 0.3); // Un gris azulado transparente
-    color: rgba(255, 255, 255, 0.3);      // Texto muy tenue
-    cursor: default;
-  }
-        &.active { background: #3a86ff; color: white; }
+          background: rgba(119, 141, 169, 0.3); /* Tu gris azulado */
+          color: rgba(255, 255, 255, 0.3);
+        }
+
+        &.active { 
+          background: #3a86ff; /* Tu azul activo */
+          color: white;
+          box-shadow: 0 0 10px rgba(58, 134, 255, 0.4);
+        }
       }
     }
-  }
-}
-.event-input-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 10px 0;
-
-  input {
-    background: #0d1b2a;
-    border: 1px solid #3a86ff;
-    border-radius: 8px;
-    padding: 8px;
-    color: white;
-    font-size: 0.9rem;
-  }
-
-  button {
-    background: #3a86ff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 5px;
-    font-weight: bold;
-    cursor: pointer;
   }
 }
