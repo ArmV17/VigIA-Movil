@@ -2,9 +2,13 @@ import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { environment } from '../../../environments/environment'; // Cambiado a environment general
+import { environment } from '../../../environments/environment';
 import mapboxgl from 'mapbox-gl';
-import { Geolocation } from '@capacitor/geolocation'; // Importante para el GPS en móvil
+import { Geolocation } from '@capacitor/geolocation';
+
+// --- NUEVAS IMPORTACIONES PARA LOS ICONOS ---
+import { addIcons } from 'ionicons';
+import { closeCircle } from 'ionicons/icons';
 
 // Componentes globales de VigIA
 import { CustomNavbarComponent } from '../../components/custom-navbar/custom-navbar.component';
@@ -29,16 +33,17 @@ export class MapaPage implements AfterViewInit, OnDestroy {
   markerA: mapboxgl.Marker | null = null;
   markerB: mapboxgl.Marker | null = null;
   
-  // El centro de la UTC
   readonly CENTER_COORDS: [number, number] = [-100.93655, 25.55701];
 
-  // Variables para el Panel de Información
   panelVisible = false;
   currentTitle = '';
   currentText = '';
   currentImg = '';
 
-  constructor() {}
+  // --- REGISTRO DEL ICONO EN EL CONSTRUCTOR ---
+  constructor() {
+    addIcons({ 'close-circle': closeCircle });
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -53,7 +58,6 @@ export class MapaPage implements AfterViewInit, OnDestroy {
   }
 
   initMap() {
-    // Usamos el token desde el environment oculto
     (mapboxgl as any)['accessToken'] = environment.mapboxToken; 
 
     this.map = new mapboxgl.Map({
@@ -87,19 +91,27 @@ export class MapaPage implements AfterViewInit, OnDestroy {
 
       const selectOrigen = document.getElementById('origen') as HTMLSelectElement;
       const selectDestino = document.getElementById('destino') as HTMLSelectElement;
-      const features: any[] = [];
+      
+      const featuresPoligonos: any[] = [];
+      const featuresEtiquetas: any[] = [];
 
       this.todosLosDestinos.forEach(lugar => {
         if (lugar.door_coords) {
           selectOrigen.add(new Option(lugar.nombre, lugar.nombre));
           selectDestino.add(new Option(lugar.nombre, lugar.nombre));
+
+          featuresEtiquetas.push({
+            type: 'Feature',
+            properties: { nombre: lugar.nombre },
+            geometry: { type: 'Point', coordinates: lugar.door_coords }
+          });
         }
 
         if (lugar.polygons && lugar.polygons[0]) {
           const coords = [...lugar.polygons];
           if (coords[0][0] !== coords[coords.length - 1][0]) coords.push(coords[0]);
           
-          features.push({
+          featuresPoligonos.push({
             type: 'Feature',
             properties: { nombre: lugar.nombre, color: lugar.color || '#3a86ff' },
             geometry: { type: 'Polygon', coordinates: [coords] }
@@ -109,7 +121,7 @@ export class MapaPage implements AfterViewInit, OnDestroy {
 
       this.map.addSource('lugares', {
         type: 'geojson',
-        data: { type: 'FeatureCollection', features: features }
+        data: { type: 'FeatureCollection', features: featuresPoligonos }
       });
 
       this.map.addLayer({
@@ -117,6 +129,30 @@ export class MapaPage implements AfterViewInit, OnDestroy {
         type: 'fill',
         source: 'lugares',
         paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.5 }
+      });
+
+      this.map.addSource('etiquetas', {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: featuresEtiquetas }
+      });
+
+      this.map.addLayer({
+        id: 'etiquetas-layer',
+        type: 'symbol',
+        source: 'etiquetas',
+        layout: {
+          'text-field': ['get', 'nombre'],
+          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+          'text-size': 11,
+          'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+          'text-radial-offset': 0.5,
+          'text-justify': 'auto'
+        },
+        paint: {
+          'text-color': '#ffffff',
+          'text-halo-color': 'rgba(0,0,0,0.8)',
+          'text-halo-width': 1.5
+        }
       });
 
       this.configurarClicksMapa();
@@ -157,7 +193,6 @@ export class MapaPage implements AfterViewInit, OnDestroy {
 
     if (origen === "GPS") {
       try {
-        // Pedir permiso de GPS nativo (Mejor para Android)
         const coordinates = await Geolocation.getCurrentPosition();
         this.ejecutarPeticionRuta(
           [coordinates.coords.longitude, coordinates.coords.latitude], 
@@ -174,7 +209,6 @@ export class MapaPage implements AfterViewInit, OnDestroy {
 
   async ejecutarPeticionRuta(start: [number, number], end: [number, number]) {
     try {
-      // Usamos el token desde el environment también en la URL de la API
       const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${environment.mapboxToken}`;
       const res = await fetch(url);
       const json = await res.json();

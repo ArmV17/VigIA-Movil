@@ -1,5 +1,6 @@
 <ion-header [translucent]="true">
-<app-logo-utc></app-logo-utc>
+  <app-logo-utc></app-logo-utc>
+</ion-header>
 
 <ion-content [fullscreen]="true">
   <div id="map"></div>
@@ -15,8 +16,12 @@
   </div>
 
   <div id="infoPanel" [class.show]="panelVisible">
+    <ion-icon name="close-circle" class="close-icon" (click)="closeInfoPanel()"></ion-icon>
+    
     <div class="drag-handle" (click)="closeInfoPanel()"></div>
+    
     <img [src]="currentImg" *ngIf="currentImg" class="info-img">
+    
     <div class="info-body">
       <h3>{{ currentTitle }}</h3>
       <div [innerHTML]="currentText"></div>
