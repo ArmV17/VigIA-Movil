@@ -45,7 +45,7 @@ export class PreguntasPage implements OnInit {
     website: ''
   };
 
-  constructor(private apiService: ApiService) { // Inyectamos el ApiService
+  constructor(private apiService: ApiService) { 
     addIcons({
       'clipboard-outline': clipboardOutline,
       'help-circle-outline': helpCircleOutline,
@@ -64,10 +64,8 @@ export class PreguntasPage implements OnInit {
    * Carga las preguntas usando el sistema de caché nativo del ApiService
    */
   cargarPreguntas() {
-    // Usamos el método con caché para la tabla 'preguntas_enviadas'
     this.apiService.obtenerDatosConCache('preguntas_enviadas').subscribe({
       next: (data) => {
-        // Filtramos las que tienen respuesta (como hacías antes)
         this.preguntas = (data || []).filter((q: any) => q.pregunta && q.respuesta);
       },
       error: (err) => {
@@ -83,7 +81,7 @@ export class PreguntasPage implements OnInit {
   }
 
   /**
-   * El envío se queda igual (requiere internet para insertar en Supabase)
+   * Envia la pregunta a Supabase
    */
   async enviarPregunta() {
     if (this.nuevaPregunta.website !== '') return;
@@ -115,5 +113,30 @@ export class PreguntasPage implements OnInit {
 
   abrirEnlace(url: string) {
     if (url) window.open(url, '_blank');
+  }
+
+  // ==========================================================
+  // LÓGICA DE NEGOCIO PARA ENCRIPTACIÓN (Punto de tu trabajo)
+  // ==========================================================
+
+  /**
+   * Encripta un texto usando Base64 (Lógica central)
+   */
+  encriptarTexto(texto: string): string {
+    if (!texto) return '';
+    // Usamos encodeURIComponent para manejar caracteres especiales y acentos
+    return btoa(encodeURIComponent(texto));
+  }
+
+  /**
+   * Desencripta un código Base64 (Lógica central)
+   */
+  desencriptarTexto(codigo: string): string {
+    if (!codigo) return '';
+    try {
+      return decodeURIComponent(atob(codigo));
+    } catch (e) {
+      return 'Error: Formato de encriptación inválido';
+    }
   }
 }

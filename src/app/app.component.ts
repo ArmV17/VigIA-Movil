@@ -6,6 +6,7 @@ import { ApiService } from './servicios/api.service';
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
+  standalone: true,
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent implements OnInit {
@@ -14,12 +15,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     console.log('--- Iniciando prueba de conexión con Django API ---');
     this.apiService.checkStatus().subscribe({
-      next: (res) => {
-        console.log('✅ Conexión exitosa. Respuesta de Django:', res);
-      },
-      error: (err) => {
-        console.error('❌ Error conectando con Django API:', err);
-      }
+      next: (res) => console.log('✅ Conexión exitosa:', res),
+      error: (err) => console.error('❌ Error conectando con Django API:', err)
     });
   }
 }
