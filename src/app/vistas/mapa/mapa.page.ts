@@ -193,13 +193,18 @@ export class MapaPage implements AfterViewInit, OnDestroy {
 
     if (origen === "GPS") {
       try {
-        const coordinates = await Geolocation.getCurrentPosition();
+        const coordinates = await Geolocation.getCurrentPosition({
+          enableHighAccuracy: true, 
+          timeout: 10000,           
+          maximumAge: 0             
+        });
+
         this.ejecutarPeticionRuta(
           [coordinates.coords.longitude, coordinates.coords.latitude], 
           dObj.door_coords
         );
       } catch (e) {
-        alert("⚠️ Por favor, activa el GPS en tu celular para trazar la ruta.");
+        alert("⚠️ No se pudo obtener la ubicación exacta. Asegúrate de estar en un lugar abierto y tener el GPS en modo 'Alta Precisión'.");
       }
     } else {
       const oObj = this.todosLosDestinos.find(o => o.nombre === origen);

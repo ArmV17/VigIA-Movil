@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapaPage } from './mapa.page';
-import { provideRouter } from '@angular/router'; // Importante para que no truene
+import { provideRouter } from '@angular/router';
 
 describe('MapaPage', () => {
   let component: MapaPage;
@@ -9,7 +9,7 @@ describe('MapaPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MapaPage],
-      providers: [provideRouter([])] // Agregamos el proveedor de rutas aquí
+      providers: [provideRouter([])]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MapaPage);
