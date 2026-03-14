@@ -135,15 +135,24 @@ npx cap open android
 ---
 
 # Esquema de Pruebas Unitarias
-
+Se implementó un esquema de pruebas automatizadas centrado en el aislamiento de componentes y servicios. El objetivo es garantizar la integridad de la lógica de negocio y la seguridad de los datos antes de su despliegue, utilizando un enfoque de Desarrollo Guiado por Comportamiento (BDD).
 
 # Pruebas Implementadas
+Se desarrollaron pruebas críticas para validar los pilares de VigIA-Movil:
 
+Módulo de Seguridad (Base64 Service): Validación exhaustiva de los algoritmos de encriptación y desencriptación para asegurar la confidencialidad de las consultas de los usuarios.
+
+Integridad de Componentes Standalone: Verificación del ciclo de vida y renderizado correcto de las vistas de `Mapa` y `Preguntas`.
+
+Inyección de Dependencias:Pruebas de integración para servicios de `HttpClient` y `Router`, asegurando que la comunicación con APIs externas (Mapbox/Supabase) sea estable.
+
+Lógica de Mapa y GeoJSON: Validación de la carga de coordenadas y renderizado de etiquetas de edificios en tiempo real.
 
 # Ejecutar Pruebas
+Para correr el suite de pruebas y verificar la estabilidad del proyecto, ejecuta el siguiente comando en la terminal:
 
-
-#  Tecnologías Utilizadas
+```bash
+npx ng test --watch=false
 
 * **Ionic 8**
 * **Angular 18**
