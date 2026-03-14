@@ -134,21 +134,15 @@ npx cap open android
 
 ---
 
-# Esquema de Pruebas Unitarias
-Se implementó un esquema de pruebas automatizadas centrado en el aislamiento de componentes y servicios. El objetivo es garantizar la integridad de la lógica de negocio y la seguridad de los datos antes de su despliegue, utilizando un enfoque de Desarrollo Guiado por Comportamiento (BDD).
+---
 
-![Evidencia de Código](src/assets/screenshots/Tecnologias Utilizadas.jpg)
-![Evidencia de Código](src/assets/screenshots/Tecnologias Utilizadas2.jpg)
+# Esquema de Pruebas Unitarias
+Se implementó un esquema de pruebas automatizadas centrado en el aislamiento de componentes y servicios. El objetivo es garantizar la integridad de la lógica de negocio y la seguridad de los datos antes de su despliegue.
 
 # Pruebas Implementadas
-Se desarrollaron pruebas críticas para validar los pilares de VigIA-Movil:
+Se desarrollaron pruebas críticas para validar los pilares de VigIA-Movil, asegurando que la lógica de seguridad y el renderizado de componentes sean estables.
 
-* **Módulo de Seguridad (Base64 Service):** Validación exhaustiva de los algoritmos de encriptación y desencriptación.
-* **Integridad de Componentes Standalone:** Verificación del ciclo de vida y renderizado de `Mapa` y `Preguntas`.
-* **Inyección de Dependencias:** Pruebas de integración para `HttpClient` y `Router`.
-* **Lógica de Mapa y GeoJSON:** Validación de carga de coordenadas y etiquetas en tiempo real.
-
-![Pruebas Unitarias](src/assets/screenshots/pruebas unitarias.jpg)
+![Evidencia de Código de Pruebas](src/assets/screenshots/pruebas_unitarias.JPG)
 
 # Ejecutar Pruebas
 Para correr el suite de pruebas y verificar la estabilidad del proyecto, ejecuta el siguiente comando en la terminal:
@@ -156,6 +150,8 @@ Para correr el suite de pruebas y verificar la estabilidad del proyecto, ejecuta
 ```bash
 npx ng test --watch=false
 
+
+#  Tecnologías Utilizadas
 
 * **Ionic 8**
 * **Angular 18**
