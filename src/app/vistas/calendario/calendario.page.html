@@ -3,64 +3,117 @@
 
   <div class="main-container">
     
+    <!-- ═══════ SIDEBAR (Día seleccionado + Eventos) ═══════ -->
     <div class="side-card">
-      <div class="date-header">
-        <span class="today-badge" *ngIf="esHoy(diaSeleccionado)">HOY</span>
-        
-        <h1 class="big-day">{{ diaSeleccionado < 10 ? '0' + diaSeleccionado : diaSeleccionado }}</h1>
-        <div class="date-info">
-          <p class="month-year">{{ nombreMes }}</p>
-          <p class="anio-label">{{ anio }}</p>
-        </div>
-      </div>
+      <div class="day-big">{{ diaSeleccionado }}</div>
+      <div class="month-label">{{ nombreMes | uppercase }}</div>
+      <div class="year-label">{{ anio }}</div>
       
-      <div class="event-display">
-        <span class="event-label">CALENDARIO OFICIAL UTC</span>
-        <div class="info-box" [style.border-left-color]="coloresCeldas[getClaveFecha(diaSeleccionado)]">
-          <p class="event-text">
-            {{ getEventoDelDia()?.titulo || 'Sin actividades oficiales' }}
-          </p>
-          <small *ngIf="getEventoDelDia()?.categoria" class="tag">
-            {{ getEventoDelDia()?.categoria }}
-          </small>
-        </div>
+      <div class="events-section">
+        <h4 class="events-title">EVENTOS</h4>
+
+        @if (getEventosDelDia().length === 0) {
+          <div class="event-item">
+            <p class="event-text no-event"><em>Sin eventos este día</em></p>
+          </div>
+        }
+
+        @for (ev of getEventosDelDia(); track ev.id) {
+          <div class="event-item has-event">
+            <p class="event-name">{{ ev.titulo }}</p>
+            <div class="event-meta">
+              <span class="event-time">
+                <ion-icon name="time-outline"></ion-icon>
+                {{ formatTime(ev) }}
+              </span>
+              @if (ev.evento_lugar) {
+                <span class="event-location">
+                  <ion-icon name="location-outline"></ion-icon>
+                  {{ ev.evento_lugar }}
+                </span>
+              }
+            </div>
+          </div>
+        }
       </div>
     </div>
 
+    <!-- ═══════ CALENDARIO GRID ═══════ -->
     <div class="calendar-box">
+      <div class="cal-year">{{ anio }}</div>
       <div class="calendar-header">
         <ion-button fill="clear" color="light" (click)="mesAnterior()">
           <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
         </ion-button>
-        <div class="month-title">
-          <h2>{{ nombreMes }}</h2>
-        </div>
+        <h2 class="month-title">{{ nombreMes | uppercase }}</h2>
         <ion-button fill="clear" color="light" (click)="mesSiguiente()">
           <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
         </ion-button>
       </div>
 
       <div class="grid-calendar">
-        @for (n of ['L', 'M', 'M', 'J', 'V', 'S', 'D']; track n) {
+        <!-- Headers de días - nombres completos como en la web -->
+        @for (n of diasSemana; track n) {
           <div class="day-name">{{ n }}</div>
         }
 
+        <!-- Relleno: días del mes anterior -->
         @for (dia of rellenoInicial; track dia) {
           <div class="day-cell muted">{{ dia }}</div>
         }
 
+        <!-- Días del mes actual -->
         @for (dia of diasMes; track dia) {
           <div class="day-cell" 
                [class.active]="dia === diaSeleccionado"
                [class.is-today]="esHoy(dia)"
-               [style.background]="coloresCeldas[getClaveFecha(dia)]"
-               [style.color]="coloresCeldas[getClaveFecha(dia)] ? 'white' : ''"
+               [class.has-events]="tieneEventos(dia)"
                (click)="seleccionarDia(dia)">
             {{ dia }}
+            @if (tieneEventos(dia)) {
+              <span class="event-dot"></span>
+            }
           </div>
+        }
+
+        <!-- Relleno: días del mes siguiente -->
+        @for (dia of rellenoFinal; track dia) {
+          <div class="day-cell muted next-month">{{ dia }}</div>
         }
       </div>
     </div>
+
+    <!-- ═══════ FOOTER IDÉNTICO A WEB ═══════ -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h6>❖ ASISTENTE UTC</h6>
+          <p>Una herramienta de la UTC para resolver y atender tus dudas.</p>
+        </div>
+        <div class="footer-links">
+          <h6>UTC</h6>
+          <a href="https://utc.edu.mx/index.php/calendario-escolar/" target="_blank">Calendario Escolar</a>
+          <a href="https://utc.edu.mx/index.php/t-escolares/" target="_blank">Trámites</a>
+          <a href="https://utc.edu.mx/index.php/becas/" target="_blank">Becas</a>
+          <a href="https://utc.edu.mx/index.php/322-2/" target="_blank">Oferta Educativa</a>
+        </div>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/UniversidadTecnologicadeCoahuila/" target="_blank">
+          <ion-icon name="logo-facebook"></ion-icon>
+        </a>
+        <a href="https://www.instagram.com/utcoahuila/" target="_blank">
+          <ion-icon name="logo-instagram"></ion-icon>
+        </a>
+        <a href="https://www.tiktok.com/@utdecoahuila" target="_blank">
+          <ion-icon name="logo-tiktok"></ion-icon>
+        </a>
+      </div>
+      <div class="footer-copyright">
+        © <span class="year-highlight">2021 - 2028</span> Todos los Derechos reservados: 
+        <a href="https://utc.edu.mx" target="_blank" class="utc-link">Universidad Tecnológica de Coahuila</a>
+      </div>
+    </footer>
 
   </div>
 

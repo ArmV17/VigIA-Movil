@@ -13,10 +13,11 @@ import {
 import { addIcons } from 'ionicons';
 import { 
   documentTextOutline, 
-  arrowForwardCircleOutline, 
+  arrowForwardCircle, 
   closeOutline, 
   personOutline,
-  refreshOutline 
+  refreshOutline,
+  newspaperOutline
 } from 'ionicons/icons';
 
 import { ApiService } from '../../servicios/api.service';
@@ -58,10 +59,11 @@ export class BlogPage implements OnInit {
   ) {
     addIcons({
       'document-text-outline': documentTextOutline,
-      'arrow-forward-circle-outline': arrowForwardCircleOutline,
+      'arrow-forward-circle': arrowForwardCircle,
       'close-outline': closeOutline,
       'person-outline': personOutline,
-      'refresh-outline': refreshOutline
+      'refresh-outline': refreshOutline,
+      'newspaper-outline': newspaperOutline
     });
   }
 
@@ -99,7 +101,8 @@ export class BlogPage implements OnInit {
   async leerMas(post: any) {
     const modal = await this.modalCtrl.create({
       component: BlogDetailComponent,
-      componentProps: { post: post }
+      componentProps: { post: post },
+      cssClass: 'fullscreen-modal'
     });
     return await modal.present();
   }

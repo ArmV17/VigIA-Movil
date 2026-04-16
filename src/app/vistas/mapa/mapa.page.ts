@@ -58,10 +58,9 @@ export class MapaPage implements AfterViewInit, OnDestroy {
   }
 
   initMap() {
-    (mapboxgl as any)['accessToken'] = environment.mapboxToken; 
-
     this.map = new mapboxgl.Map({
       container: 'map', 
+      accessToken: environment.mapboxToken,
       style: 'mapbox://styles/mapbox/dark-v11',
       center: this.CENTER_COORDS,
       zoom: 16,

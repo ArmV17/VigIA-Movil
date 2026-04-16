@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, from, of } from 'rxjs';
 import { tap, map, catchError, switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Preferences } from '@capacitor/preferences';
-import { supabase } from '../supabase'; 
+import { Preferences } from '@capacitor/preferences'; 
 
 @Injectable({
   providedIn: 'root'
@@ -33,39 +32,25 @@ export class ApiService {
   // --- LÓGICA DE DATOS CON CACHÉ (Blog, Preguntas, Calendario) [cite: 36, 37] ---
 
   /**
-   * Obtiene datos de Supabase con respaldo offline automático.
-   * Prioriza la carga de red pero devuelve el caché si no hay internet.
+   * Obtiene datos del Backend Django con respaldo offline automático.
+   * Prioriza la carga de red pero devuelve el caché si no hay internet o falla el servidor.
    */
   obtenerDatosConCache(tabla: string): Observable<any[]> {
     return from(this.obtenerLocal(`cache_${tabla}`)).pipe(
       switchMap(cache => {
-        // Ajuste dinámico de la columna de ordenamiento según tu tabla de Supabase 
-        const columnaOrden = (tabla === 'cross_asistent_articulos') ? 'creacion' : 'created_at';
-
-        const obsSupabase = from(
-          supabase.from(tabla)
-            .select('*')
-            .order(columnaOrden, { ascending: false })
-        ).pipe(
-          map(({ data, error }) => {
-            if (error) {
-              console.error(`Error Supabase [${tabla}]:`, error.message);
-              throw error;
-            }
+        // Hacemos el request al endpoint creado en Django
+        return this.http.get<any[]>(`${this.baseUrl}get_table/${tabla}/`).pipe(
+          tap((data) => {
             if (data && data.length > 0) {
               // Actualizamos el "baúl" del celular con datos frescos 
               this.guardarLocal(`cache_${tabla}`, data);
-              return data;
             }
-            return cache || [];
           }),
           catchError((err) => {
-            console.warn(`VigIA Offline - Usando caché para: ${tabla}`);
+            console.warn(`VigIA Offline - Error conectando a Django para ${tabla}. Usando caché local.`);
             return of(cache || []);
           })
         );
-
-        return obsSupabase; 
       })
     );
   }

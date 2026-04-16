@@ -9,7 +9,7 @@
 }
 
 ion-content { 
-    --background: #0d1b2a; 
+    --background: transparent; 
 }
 
 #routingPanel {
@@ -26,7 +26,7 @@ ion-content {
 
     .map-select {
         width: 100%;
-        background: #0d1b2a;
+        background: rgba(10, 22, 40, 0.9);
         color: white;
         border: 1px solid #3a86ff;
         padding: 8px;

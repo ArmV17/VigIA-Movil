@@ -8,7 +8,9 @@ import {
 import { addIcons } from 'ionicons'; 
 import { 
   chevronBack, chevronForward, home, helpCircle, map, calendar, 
-  documentText, ellipsisHorizontal, peopleCircleOutline
+  documentText, ellipsisHorizontal, peopleCircleOutline,
+  logoFacebook, logoInstagram, logoTiktok,
+  timeOutline, locationOutline
 } from 'ionicons/icons'; 
 
 // Importa tu servicio de API y componentes
@@ -32,19 +34,25 @@ export class CalendarioPage implements OnInit {
   
   diasMes: number[] = [];
   rellenoInicial: number[] = [];
+  rellenoFinal: number[] = [];
   diaSeleccionado: number = this.fechaActual.getDate();
   nombreMes: string = "";
   anio: number = this.fechaActual.getFullYear();
 
+  // Nombres completos como en la web
+  diasSemana: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
   eventosDB: any[] = [];
-  coloresCeldas: { [key: string]: string } = {};
+  diasConEventos: Set<string> = new Set();
 
   constructor(private router: Router, private apiService: ApiService) {
     addIcons({ 
       'chevron-back': chevronBack, 'chevron-forward': chevronForward,
       home, 'help-circle': helpCircle, map, calendar, 
       'document-text': documentText, 'ellipsis-horizontal': ellipsisHorizontal,
-      'people-circle-outline': peopleCircleOutline
+      'people-circle-outline': peopleCircleOutline,
+      logoFacebook, logoInstagram, logoTiktok,
+      'time-outline': timeOutline, 'location-outline': locationOutline
     });
   }
 
@@ -54,34 +62,53 @@ export class CalendarioPage implements OnInit {
   }
 
   /**
-   * Carga los eventos usando el sistema de caché de tu ApiService
+   * Carga los eventos usando el sistema de caché de tu ApiService.
+   * El API de Django devuelve: titulo, informacion, evento_fecha_inicio,
+   * evento_fecha_fin, evento_allDay, evento_lugar, evento_className, imagen
    */
   cargarDatosCalendario() {
     this.apiService.obtenerDatosConCache('eventos_utc').subscribe({
       next: (data) => {
         if (data) {
           this.eventosDB = data;
-          this.mapearColores(data);
+          this.indexarEventos();
         }
       },
       error: (err) => console.error('Error cargando calendario:', err)
     });
   }
 
-  private mapearColores(data: any[]) {
-    this.coloresCeldas = {};
-    data.forEach(ev => {
-      const f = new Date(ev.fecha + 'T00:00:00');
-      const clave = `${f.getFullYear()}-${f.getMonth() + 1}-${f.getDate()}`;
-      this.coloresCeldas[clave] = ev.color_hex;
+  /**
+   * Indexa las fechas que tienen eventos para un lookup rápido O(1)
+   */
+  private indexarEventos() {
+    this.diasConEventos.clear();
+    this.eventosDB.forEach(ev => {
+      if (!ev.evento_fecha_inicio) return;
+      const start = ev.evento_fecha_inicio.substring(0, 10); // YYYY-MM-DD
+      const end = ev.evento_fecha_fin ? ev.evento_fecha_fin.substring(0, 10) : start;
+      
+      // Mark each day in the range
+      const dStart = new Date(start + 'T00:00:00');
+      const dEnd = new Date(end + 'T00:00:00');
+      const cur = new Date(dStart);
+      while (cur <= dEnd) {
+        this.diasConEventos.add(this.toDateKey(cur));
+        cur.setDate(cur.getDate() + 1);
+      }
     });
   }
 
-  // --- LÓGICA DE RENDERIZADO (Se mantiene igual) ---
+  // --- LÓGICA DE RENDERIZADO ---
   esHoy(dia: number): boolean {
     return dia === this.FECHA_REAL.getDate() && 
            this.fechaActual.getMonth() === this.FECHA_REAL.getMonth() && 
            this.fechaActual.getFullYear() === this.FECHA_REAL.getFullYear();
+  }
+
+  tieneEventos(dia: number): boolean {
+    const key = `${this.anio}-${String(this.fechaActual.getMonth() + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+    return this.diasConEventos.has(key);
   }
 
   generarCalendario() {
@@ -91,23 +118,46 @@ export class CalendarioPage implements OnInit {
     this.anio = anio;
     const numDias = new Date(anio, mes + 1, 0).getDate();
     this.diasMes = Array.from({ length: numDias }, (_, i) => i + 1);
+    
+    // Relleno inicial (mes anterior)
     let primerDiaSemana = new Date(anio, mes, 1).getDay();
     const desplazamiento = primerDiaSemana === 0 ? 6 : primerDiaSemana - 1;
     const diasMesAnterior = new Date(anio, mes, 0).getDate();
     this.rellenoInicial = Array.from({ length: desplazamiento }, (_, i) => diasMesAnterior - (desplazamiento - 1) + i);
+    
+    // Relleno final (mes siguiente) - para completar la última fila
+    const totalCeldas = this.rellenoInicial.length + numDias;
+    const celdasFaltantes = totalCeldas % 7 === 0 ? 0 : 7 - (totalCeldas % 7);
+    this.rellenoFinal = Array.from({ length: celdasFaltantes }, (_, i) => i + 1);
   }
 
-  getClaveFecha(dia: number): string {
-    return `${this.anio}-${this.fechaActual.getMonth() + 1}-${dia}`;
-  }
-
-  getEventoDelDia() {
-    const claveBusqueda = this.getClaveFecha(this.diaSeleccionado);
-    return this.eventosDB.find(ev => {
-      const f = new Date(ev.fecha + 'T00:00:00');
-      const claveEv = `${f.getFullYear()}-${f.getMonth() + 1}-${f.getDate()}`;
-      return claveEv === claveBusqueda;
+  /**
+   * Returns all events for the selected day.
+   * Checks if the selected date falls within each event's start-end range.
+   */
+  getEventosDelDia(): any[] {
+    const selDate = `${this.anio}-${String(this.fechaActual.getMonth() + 1).padStart(2, '0')}-${String(this.diaSeleccionado).padStart(2, '0')}`;
+    
+    return this.eventosDB.filter(ev => {
+      if (!ev.evento_fecha_inicio) return false;
+      const start = ev.evento_fecha_inicio.substring(0, 10);
+      const end = ev.evento_fecha_fin ? ev.evento_fecha_fin.substring(0, 10) : start;
+      return selDate >= start && selDate <= end;
     });
+  }
+
+  /**
+   * Format event time for display
+   */
+  formatTime(ev: any): string {
+    if (ev.evento_allDay) return 'Todo el día';
+    if (!ev.evento_fecha_inicio) return '';
+    const d = new Date(ev.evento_fecha_inicio);
+    return d.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  private toDateKey(d: Date): string {
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   }
 
   mesSiguiente() { this.fechaActual.setMonth(this.fechaActual.getMonth() + 1); this.generarCalendario(); }
