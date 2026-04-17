@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://vigiautc.pythonanywhere.com/api/',
+  apiBaseUrl: 'https://vigiautc.pythonanywhere.com/api',
   apiUrl: 'https://vigiautc.pythonanywhere.com/chatbot/',
 
   supabaseUrl: 'https://rqkzrsokdsdstjqocdbd.supabase.co',
